@@ -37,6 +37,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         Toolbar myToolbar = findViewById(R.id.activity_schedule_tb);
         setSupportActionBar(myToolbar);
         showLoading();//todo
+        
         //NoteDatabase db = Room.databaseBuilder(this,NoteDatabase.class,"database").build();
 
 
@@ -52,7 +53,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
 
         /*TextView textView = findViewById(R.id.textView);
         textView.setText(currentDateAndTime);*/
-
 
         Calendar c = Calendar.getInstance();
 
