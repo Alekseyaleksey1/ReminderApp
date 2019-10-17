@@ -27,17 +27,17 @@ public class Note {
         return noteDate;
     }
 
-    public void setNoteDate(Date noteDate) {
+    /*public void setNoteDate(Date noteDate) {
         this.noteDate = noteDate;
-    }
+    }*/
 
     public String getNoteText() {
         return noteText;
     }
 
-    public void setNoteText(String noteText) {
+   /* public void setNoteText(String noteText) {
         this.noteText = noteText;
-    }
+    }*/
 
     public Note(Date noteDate, String noteText) {
         this.noteDate = noteDate;

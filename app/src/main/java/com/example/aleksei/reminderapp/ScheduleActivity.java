@@ -14,22 +14,18 @@ import com.example.aleksei.reminderapp.model.DataWorker;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.SchedulePresenter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import static android.graphics.drawable.ClipDrawable.HORIZONTAL;
 
 
-public class ScheduleActivity extends AppCompatActivity implements ScheduleInterface, ScheduleRecyclerViewAdapter.ItemClickedCallback {
+public class ScheduleActivity extends AppCompatActivity implements ScheduleInterface, ScheduleAdapter.ItemClickedCallback {
 
     SchedulePresenter schedulePresenterInstance;
     RecyclerView scheduleRecyclerView;
-    public static ScheduleRecyclerViewAdapter scheduleRecyclerViewAdapter;
+    public ScheduleAdapter scheduleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +59,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        c.add(Calendar.DATE, 6);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        c.add(Calendar.DATE, 6);  // number of listOfWeekDays to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
         String output = sdf1.format(c.getTime());*/
@@ -82,26 +78,40 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         }*/
 
 
+       /*ADD List<DayModel> listOfWeekDays = new ArrayList<>();
+        List<Date> dateOfWeekDays = getWeekDates();
+
+        for (Date dateDayOfWeek : dateOfWeekDays) {
+            List<Note> noteList = new ArrayList<>();
+
+            listOfWeekDays.add(new DayModel(dateDayOfWeek, noteList));
+        }*/
+
+
+        //listOfWeekDays.add(new DayModel());
         List<Note> list = new ArrayList<>();
         //list.add(new Note());
-
+        schedulePresenterInstance = new SchedulePresenter(this, this, DataWorker.getInstance(this));
+        List<Date> weekDates = schedulePresenterInstance.getWeekDates();
         scheduleRecyclerView = findViewById(R.id.activity_schedule_rv);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        scheduleRecyclerViewAdapter = new ScheduleRecyclerViewAdapter(this, getWeekDate(), list);
+        scheduleAdapter = new ScheduleAdapter(this, weekDates, list);
+        //ADD scheduleAdapter = new ScheduleAdapter(this, listOfWeekDays);
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
         scheduleRecyclerView.addItemDecoration(itemDecor);
 
-        scheduleRecyclerView.setAdapter(scheduleRecyclerViewAdapter);
-        schedulePresenterInstance = new SchedulePresenter(this, this, DataWorker.getInstance(this));
+        scheduleRecyclerView.setAdapter(scheduleAdapter);
+
         //schedulePresenterInstance.onUIReady();
-        scheduleRecyclerViewAdapter.registerForItemClickedCallback(this);
-        /*List<Date> weekDate = getWeekDate();
+        scheduleAdapter.registerForItemClickedCallback(this);
+        /*List<Date> weekDate = getWeekDates();
         for (Date dateNotesToShow : weekDate) {
             Log.i("timmy", dateNotesToShow.toString());
         }*/
+        //schedulePresenterInstance.getDataToShow();
     }
 
-    List<Date> getWeekDate() {
+    /*List<Date> getWeekDates() {
         List<Date> dateOfWeekDays = new ArrayList<>();
         for (int i = 0; i <= 6; i++) {
             Calendar calendar = Calendar.getInstance();
@@ -113,19 +123,19 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
             dateOfWeekDays.add(tempDate);
         }
         return dateOfWeekDays;
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         ////////schedulePresenterInstance.onUIReady();
 
-        /*Collections.sort(myList, new Comparator<MyObject>() {
+        *//*Collections.sort(myList, new Comparator<MyObject>() {
             public int compare(MyObject o1, MyObject o2) {
                 return o1.getDateTime().compareTo(o2.getDateTime());
             }
-        });*/
-    }
+        });*//*
+    }*/
 
     public void onClickAddNewNote(View view) {
         Intent intent = new Intent(this, AddNoteActivity.class);
@@ -143,10 +153,19 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
 
     }
 
+    /*@Override
+    public void setDataToShow(List<DayModel> listOfNotedWeekDays) {
+
+        //ScheduleAdapter.setAllNoteData(listOfNotedWeekDays);
+        ScheduleActivity.scheduleAdapter.notifyDataSetChanged();
+        hideLoading();
+
+    }*/
+
     @Override
     public void onItemClicked(Date dateOfClickedDay) {
         Intent intent = new Intent(this, DetailedActivity.class);
-        Log.i("timmyscheduledaypicked",dateOfClickedDay.toString() );
+        Log.i("timmyscheduledaypicked", dateOfClickedDay.toString());
         intent.putExtra("chosenDay", dateOfClickedDay.toString());
         startActivity(intent);
     }

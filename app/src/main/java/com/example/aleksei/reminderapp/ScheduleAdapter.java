@@ -12,41 +12,49 @@ import android.widget.TextView;
 
 import com.example.aleksei.reminderapp.model.Note;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRecyclerViewAdapter.ViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<Date> weekDates;
-    private static List<Note> allNoteData;
+     private List<Date> weekDates;
+     //11 private static List<Note> allNoteData;
     ItemClickedCallback callback;
 
-    public List<Date> getWeekDates() {
+    //ADD List<DayModel> listOfWeekDays;
+
+     public List<Date> getWeekDates() {
         return weekDates;
     }
 
-    public List<Note> getAllNoteData() {
+    /*11 public List<Note> getAllNoteData() {
         return allNoteData;
     }
 
     public static void setAllNoteData(List<Note> allData) {
         allNoteData = allData;
-    }
+    }*/
 
-    public ScheduleRecyclerViewAdapter(Context context, List<Date> weekForward, List<Note> data) {
+    public ScheduleAdapter(Context context, List<Date> weekForward, List<Note> data) {
         inflater = LayoutInflater.from(context);
         weekDates = weekForward;
-        allNoteData = data;
+        //11 allNoteData = data;
     }
+    /*ADD public ScheduleAdapter(Context context, List<DayModel> listOfWeekDays) {
+        inflater = LayoutInflater.from(context);
+       //БЫЛО weekDates = weekForward;
+        //БЫЛО allNoteData = data;
+
+         this.listOfWeekDays = listOfWeekDays;
+    }*/
 
 
     interface ItemClickedCallback{
         void onItemClicked(Date dateOfClickedDay);
     }
 
-    public void registerForItemClickedCallback(ItemClickedCallback callback) {
+    void registerForItemClickedCallback(ItemClickedCallback callback) {
         this.callback = callback;
     }
 
@@ -74,7 +82,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         /*Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateNotesToShow);
 
-        String adequateDayName = "";//todo method getDayName
+        String adequateDayName = "";
         switch (calendar.get(Calendar.DAY_OF_WEEK)) {
             case (1): {
                 adequateDayName = "Воскресенье";
@@ -109,7 +117,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
                 break;
             }
         }*/
-        /*String adequateMonth = "";//todo method getMonth
+        /*String adequateMonth = "";
         switch (calendar.get(Calendar.MONTH) + 1) {
             case 1: {
                 adequateMonth = "Января";
@@ -179,14 +187,14 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public LinearLayout container;
-        public TextView tvDayName;
-        public TextView tvDayDate;
-        public TextView tvNoteOne;
-        public TextView tvNoteTwo;
-        public TextView tvNoteThree;
+        LinearLayout container;
+        TextView tvDayName;
+        TextView tvDayDate;
+        TextView tvNoteOne;
+        TextView tvNoteTwo;
+        TextView tvNoteThree;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             container = itemView.findViewById(R.id.activity_schedule_ll);

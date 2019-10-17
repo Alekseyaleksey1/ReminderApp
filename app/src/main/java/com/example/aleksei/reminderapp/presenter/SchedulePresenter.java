@@ -1,55 +1,91 @@
 package com.example.aleksei.reminderapp.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.example.aleksei.reminderapp.ScheduleActivity;
 import com.example.aleksei.reminderapp.ScheduleInterface;
-import com.example.aleksei.reminderapp.ScheduleRecyclerViewAdapter;
 import com.example.aleksei.reminderapp.model.DataWorker;
-import com.example.aleksei.reminderapp.model.Note;
 
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 public class SchedulePresenter {
 
-    private Context context;
-    private CompositeDisposable disposable;
+    //private Context context;
+    private CompositeDisposable disposable;//todo all disposables
     private DataWorker dataWorker;
     private ScheduleInterface scheduleInterfaceInstance;
 
 
     public SchedulePresenter(Context context, ScheduleInterface scheduleInterfaceInstance, DataWorker dataWorker) {
-        this.context = context;
+        //this.context = context;
         this.dataWorker = dataWorker;
         this.scheduleInterfaceInstance = scheduleInterfaceInstance;
         disposable = new CompositeDisposable();
     }
 
 
-    public void onUIReady() {
+    /*public void onUIReady() {
 
         //calculateTime();
         getNotesFromDatabase();//////////////
 
-    }
+    }*/
 
 
-    public Date getCurrentDate(){
+    /*public Date getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime();
+    }*/
+
+
+   /* public void getDataToShow() {
+        getNotesFromDatabase();
+    }*/
+
+    /*void fetchDataToShow(List<Note> allNotes) {
+        List<Date> dateOfWeekDays = getWeekDates();
+        List<DayModel> listOfNotedWeekDays = new ArrayList<>();
+
+        for (Date dateDayOfWeek : dateOfWeekDays) {
+            List<Note> noteList = new ArrayList<>();
+
+            for (Note note : allNotes) {
+                Date notesDate = note.getNoteDate();
+                noteList = new ArrayList<>();
+                Calendar c1 = Calendar.getInstance();
+                c1.setTime(dateDayOfWeek);
+                Calendar c2 = Calendar.getInstance();
+                c2.setTime(notesDate);
+
+                if ((c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)) && (c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)))) {
+                    noteList.add(note);
+                }
+            }
+            listOfNotedWeekDays.add(new DayModel(dateDayOfWeek, noteList));
+        }
+
+        scheduleInterfaceInstance.setDataToShow(listOfNotedWeekDays);
+    }*/
+
+    public List<Date> getWeekDates() {
+        List<Date> dateOfWeekDays = new ArrayList<>();
+        for (int i = 0; i <= 6; i++) {
+            Calendar calendar = Calendar.getInstance();
+            Date currentDate = calendar.getTime();
+            calendar.setTime(currentDate);
+            int numberOfDay = calendar.get(Calendar.DATE);
+            calendar.set(Calendar.DATE, numberOfDay + i);
+            Date tempDate = calendar.getTime();
+            dateOfWeekDays.add(tempDate);
+        }
+        return dateOfWeekDays;
     }
 
-
-
-    private Date[] calculateTime() {
+    /*private Date[] calculateTime() {
 
         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
 
@@ -70,24 +106,30 @@ public class SchedulePresenter {
 
         //Log.i("timmy",currentDateAndTime.toString()+ " " + str);
         return new Date[]{currentDateAndTime, endDateAndTime};
-    }
+    }*/
 
-    private void getNotesFromDatabase() {
+    /*private void getNotesFromDatabase() {
         disposable.add(dataWorker.getNotes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
-                    public void accept(List<Note> notes) {
-                        ScheduleRecyclerViewAdapter.setAllNoteData(notes);
-                        ScheduleActivity.scheduleRecyclerViewAdapter.notifyDataSetChanged();
-                        scheduleInterfaceInstance.hideLoading();
-                        /*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
+                    public void accept(List<Note> allNotes) {
+
+                        fetchDataToShow(allNotes);
+
+
+                       *//* ScheduleAdapter.setAllNoteData(notes); БЫЛО
+                        ScheduleActivity.scheduleAdapter.notifyDataSetChanged();
+                        scheduleInterfaceInstance.hideLoading();*//*
+
+
+                        *//*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
                         RepositoriesFragment.recyclerViewAdapter.notifyDataSetChanged();
-                        repoListInterfaceInstance.hideLoading();*/
+                        repoListInterfaceInstance.hideLoading();*//*
                     }
                 }));
 
-    }
+    }*/
 
     /*private void addNote(Note noteToSave) {
         disposable.add(dataWorker.saveNoteToDatabase(noteToSave)

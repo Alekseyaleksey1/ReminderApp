@@ -10,14 +10,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 
-public class NewNotePresenter {
+public class AddNotePresenter {
 
-    private Context context;
+    //private Context context;
     private CompositeDisposable disposable;
     private DataWorker dataWorker;
 
-    public NewNotePresenter(Context context, DataWorker dataWorker) {
-        this.context = context;
+    public AddNotePresenter(Context context, DataWorker dataWorker) {
+        //this.context = context;
         this.dataWorker = dataWorker;
         disposable = new CompositeDisposable();
     }

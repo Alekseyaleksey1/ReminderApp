@@ -15,19 +15,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRecyclerViewAdapter.ViewHolder> {
+public class DetailedAdapter extends RecyclerView.Adapter<DetailedAdapter.ViewHolder> {
 
     //ItemOnLongClickListener onLongClickListener = new ItemOnLongClickListener();
 
-    ItemLongClickedCallback callback;
+    private ItemLongClickedCallback callback;
     private List<Note> allNoteData;
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-    public List<Note> getAllNoteData() {
+    private List<Note> getAllNoteData() {
         return allNoteData;
     }
 
-    public void setAllNoteData(List<Note> allData) {
+    void setAllNoteData(List<Note> allData) {
         allNoteData = allData;
     }
 
@@ -40,7 +40,7 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
         void onItemLongClicked(Note note);
     }
 
-    public DetailedRecyclerViewAdapter(Context context, List<Note> allData) {
+    DetailedAdapter(Context context, List<Note> allData) {
 
         allNoteData = allData;
         inflater = LayoutInflater.from(context);
@@ -58,8 +58,9 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         /*String time = "HH:MM";
         String note = "Заметка";*/
-        String noteText = allNoteData.get(i).getNoteText();//todo format string 00 00
-        Date date = allNoteData.get(i).getNoteDate();
+        Note note = allNoteData.get(i);
+        String noteText = note.getNoteText();
+        Date date = note.getNoteDate();
         /*DateConverter.getHour(date);
         DateConverter.getMinute(date);*/
 
@@ -82,12 +83,12 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout container;
-        public TextView tvNoteTime;
-        public TextView tvNoteText;
+        LinearLayout container;
+        TextView tvNoteTime;
+        TextView tvNoteText;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNoteTime = itemView.findViewById(R.id.activity_detailed_tv_notetime);
             tvNoteText = itemView.findViewById(R.id.activity_detailed_tv_notetext);

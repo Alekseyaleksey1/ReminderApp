@@ -1,14 +1,15 @@
 package com.example.aleksei.reminderapp.presenter;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.aleksei.reminderapp.DetailedActivity;
 import com.example.aleksei.reminderapp.DetailedInterface;
-import com.example.aleksei.reminderapp.DetailedRecyclerViewAdapter;
 import com.example.aleksei.reminderapp.model.DataWorker;
 import com.example.aleksei.reminderapp.model.Note;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,14 +20,14 @@ import io.reactivex.functions.Consumer;
 
 public class DetailedPresenter {
 
-    private Context context;
+    //private Context context;
     private CompositeDisposable disposable;//todo один disposable для всех
     private DataWorker dataWorker;
     DetailedInterface detailedInterfaceInstance;
     Date dateToShow;
 
     public DetailedPresenter(Context context, DetailedInterface detailedInterfaceInstance, Date dateToShow, DataWorker dataWorker) {
-        this.context = context;
+        //this.context = context;
         this.dataWorker = dataWorker;
         disposable = new CompositeDisposable();
         this.detailedInterfaceInstance = detailedInterfaceInstance;
@@ -37,18 +38,39 @@ public class DetailedPresenter {
         getNotesFromDatabase();
     }
 
-    public void getNotesFromDatabase() {
+    private void getNotesFromDatabase() {
         disposable.add(dataWorker.getNotes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
                     public void accept(List<Note> allNotes) {
 
-                        List<Note> notesToShow = dataWorker.getNotesToDate(dateToShow, allNotes);
+                        Calendar currentCalendar = Calendar.getInstance();
+                        /*currentCalendar.get(Calendar.YEAR);
+                        currentCalendar.get(Calendar.MONTH);
+                        currentCalendar.get(Calendar.DAY_OF_MONTH);*/
 
+
+                        List<Note> actualNotes = new ArrayList<>();
+                        for (Note note : allNotes) {
+
+                            Calendar notesCalendar = Calendar.getInstance();
+                            notesCalendar.setTime(note.getNoteDate());
+
+                            if ((notesCalendar.get(Calendar.DAY_OF_MONTH) >= currentCalendar.get(Calendar.DAY_OF_MONTH)) && (notesCalendar.get(Calendar.MONTH) >= currentCalendar.get(Calendar.MONTH)) && (notesCalendar.get(Calendar.YEAR) >= currentCalendar.get(Calendar.YEAR))) {
+                            actualNotes.add(note);
+                            } else {
+                                removeNote(note);
+                            }
+                        }
+
+                        //TODO удалять записи на прошлые даты РЕКУРСИЯ разобраться
+
+                        //List<Note> notesToShow = dataWorker.getNotesToDate(dateToShow, allNotes);
+                        List<Note> notesToShow = dataWorker.getNotesToDate(dateToShow, actualNotes);
                         detailedInterfaceInstance.setDataToList(notesToShow);
-                        /*DetailedRecyclerViewAdapter.setAllNoteData(allNotes); БЫЛО
-                        DetailedActivity.detailedRecyclerViewAdapter.notifyDataSetChanged();*/
+                        /*DetailedAdapter.setAllNoteData(allNotes); БЫЛО
+                        DetailedActivity.detailedAdapter.notifyDataSetChanged();*/
                         Log.i("timmy", "gotNotesFromDB");
                         //todo hide loading
                         /*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
@@ -59,7 +81,7 @@ public class DetailedPresenter {
 
     }
 
-    public void addNote(Note noteToSave) {
+    /*public void addNote(Note noteToSave) {
         disposable.add(dataWorker.saveNoteToDatabase(noteToSave)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
@@ -68,7 +90,7 @@ public class DetailedPresenter {
                         Log.i("timmy", "заметка добавлена");
                     }
                 }));
-    }
+    }*/
 
 
     private void removeNote(Note noteToDelete) {
@@ -84,9 +106,9 @@ public class DetailedPresenter {
 
     }
 
-    public void onAddNote(Note noteToSave) {
+    /*public void onAddNote(Note noteToSave) {
         addNote(noteToSave);
-    }
+    }*/
 
     public void onRemoveNote(Note noteToDelete) {
         removeNote(noteToDelete);

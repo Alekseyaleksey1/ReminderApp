@@ -5,9 +5,6 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.aleksei.reminderapp.model.DataWorker;
 import com.example.aleksei.reminderapp.model.Note;
-import com.example.aleksei.reminderapp.presenter.NewNotePresenter;
+import com.example.aleksei.reminderapp.presenter.AddNotePresenter;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +26,7 @@ public class AddNoteActivity extends AppCompatActivity {
     String pickedDate;
     String pickedTime;
     TextView tvDateAndTime;
-    NewNotePresenter newNotePresenterInstance;
+    AddNotePresenter addNotePresenterInstance;
     int yearToSet;
     int monthToSet;
     int dayToSet;
@@ -48,7 +45,8 @@ public class AddNoteActivity extends AppCompatActivity {
         edNoteText = findViewById(R.id.activity_newnote_et_notetext);
         tvDateAndTime = findViewById(R.id.activity_newnote_tv_dateandtime);
 
-        edNoteText.addTextChangedListener(new TextWatcher() {//todo перенос на след строку + 2 строки максимум
+        addNotePresenterInstance = new AddNotePresenter(this, DataWorker.getInstance(this));
+       /* edNoteText.addTextChangedListener(new TextWatcher() {//todo перенос на след строку + 2 строки максимум
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -63,7 +61,7 @@ public class AddNoteActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
     }
 
     public void setDateAndTime(View view) {
@@ -80,8 +78,9 @@ public class AddNoteActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //todo restriction in adding note to past days
-                pickedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+
+                //pickedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                pickedDate = dayOfMonth + "." + (month + 1) + "." + year;
                 pickTime();
 
                 yearToSet = year;
@@ -126,13 +125,13 @@ public class AddNoteActivity extends AppCompatActivity {
 
     public void saveNewNote(View view) {
 
-        if (edNoteText.getText().toString().length() < 1 || pickedDate == null || pickedTime == null || dateToAdd == null) {
+        if (edNoteText.getText().toString().length() < 1 /*|| pickedDate == null || pickedTime == null*/ || dateToAdd == null) {
             Toast.makeText(this, "Проверьте введена ли заметка и выставлена ли дата", Toast.LENGTH_SHORT).show();
         } else {
             //todo insert into db
-            Log.i("timmy", dateToAdd.toString());//Wed Oct 16 15:36:50 GMT+00:00
-            newNotePresenterInstance = new NewNotePresenter(this, DataWorker.getInstance(this));
-            newNotePresenterInstance.onAddNote(new Note(dateToAdd, edNoteText.getText().toString()));
+            //Log.i("timmy", dateToAdd.toString());//Wed Oct 16 15:36:50 GMT+00:00
+            //addNotePresenterInstance = new AddNotePresenter(this, DataWorker.getInstance(this));
+            addNotePresenterInstance.onAddNote(new Note(dateToAdd, edNoteText.getText().toString()));
             finish();
         }
     }

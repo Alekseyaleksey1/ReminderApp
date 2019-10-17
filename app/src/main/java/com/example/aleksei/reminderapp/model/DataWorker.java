@@ -31,7 +31,7 @@ public class DataWorker {
         return dataWorker;
     }
 
-    public NoteDatabase getDb() {
+    private NoteDatabase getDb() {
         return db;
     }
 
@@ -64,20 +64,20 @@ public class DataWorker {
                 .subscribeOn(Schedulers.io());
     }
 
-    public List<Note> getNotesToDate(Date date, List<Note> notes){
+    public List<Note> getNotesToDate(Date date, List<Note> allNotes){
 
-        List<Note> listToShow = new ArrayList<>();
+        List<Note> listOfNotesToDate = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        for (Note note : notes) {
+        for (Note note : allNotes) {
             Date tempDate = note.getNoteDate();
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTime(tempDate);
-            if (calendar.get(Calendar.DAY_OF_MONTH) == calendar1.get(Calendar.DAY_OF_MONTH)) {
-                listToShow.add(note);
+            if ((calendar.get(Calendar.DAY_OF_MONTH) == calendar1.get(Calendar.DAY_OF_MONTH))&&(calendar.get(Calendar.MONTH) == calendar1.get(Calendar.MONTH))&&(calendar.get(Calendar.YEAR) == calendar1.get(Calendar.YEAR))) {
+                listOfNotesToDate.add(note);
             }
         }
-        return listToShow;
+        return listOfNotesToDate;
     }
 }

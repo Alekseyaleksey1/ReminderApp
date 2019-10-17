@@ -20,7 +20,6 @@ import com.example.aleksei.reminderapp.presenter.DetailedPresenter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -29,10 +28,10 @@ import java.util.Locale;
 
 import static android.graphics.drawable.ClipDrawable.HORIZONTAL;
 
-public class DetailedActivity extends AppCompatActivity implements DetailedInterface, DetailedRecyclerViewAdapter.ItemLongClickedCallback {
+public class DetailedActivity extends AppCompatActivity implements DetailedInterface, DetailedAdapter.ItemLongClickedCallback {
 
     DetailedPresenter detailedPresenterInstance;
-    public static DetailedRecyclerViewAdapter detailedRecyclerViewAdapter;
+    public DetailedAdapter detailedAdapter;
     RecyclerView detailedRecyclerView;
 
     Button addNewNote;
@@ -74,7 +73,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
             Log.i("timmy detailed dateInString", "exception");
             e.printStackTrace();
         }*/
-        Log.i("timmy detailed date", dateInString);
+        //Log.i("timmy detailed date", dateInString);
        /* DateConverter.getDayName(dateToShow);
         DateConverter.getDayOfMonth(dateToShow);
         DateConverter.getMonth(dateToShow);*/
@@ -97,25 +96,25 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
 
         detailedRecyclerView = findViewById(R.id.activity_detailed_rv_allnotes);
         detailedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        detailedRecyclerViewAdapter = new DetailedRecyclerViewAdapter(this, listForNotes);
-        detailedRecyclerViewAdapter.registerForItemLongClickedCallback(this);
+        detailedAdapter = new DetailedAdapter(this, listForNotes);
+        detailedAdapter.registerForItemLongClickedCallback(this);
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
         detailedRecyclerView.addItemDecoration(itemDecor);
-        detailedRecyclerView.setAdapter(detailedRecyclerViewAdapter);
+        detailedRecyclerView.setAdapter(detailedAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("timmy", "detailed activity resumed");
+        //Log.i("timmy", "detailed activity resumed");
         detailedPresenterInstance.onUIReady();
     }
 
-    @Override
+   /* @Override
     protected void onPause() {
         super.onPause();
         Log.i("timmy", "detailed activity paused");
-    }
+    }*/
 
     public void onClickAddNewNote(View view) {
         Intent intent = new Intent(this, AddNoteActivity.class);
@@ -179,7 +178,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
         });
 
 
-        detailedRecyclerViewAdapter.setAllNoteData(listToShow);
-        detailedRecyclerViewAdapter.notifyDataSetChanged();
+        detailedAdapter.setAllNoteData(listToShow);
+        detailedAdapter.notifyDataSetChanged();
     }
 }
