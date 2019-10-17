@@ -22,7 +22,7 @@ import com.example.aleksei.reminderapp.presenter.NewNotePresenter;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewNoteActivity extends AppCompatActivity {
+public class AddNoteActivity extends AppCompatActivity {
 
     EditText edNoteText;
     String pickedDate;

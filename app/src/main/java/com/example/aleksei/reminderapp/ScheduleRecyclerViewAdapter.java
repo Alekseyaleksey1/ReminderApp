@@ -3,6 +3,7 @@ package com.example.aleksei.reminderapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,12 +64,17 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         viewHolder.container.setOnClickListener(v -> {
             //weekDates.get(i);
             callback.onItemClicked(weekDates.get(i));
+            Log.i("timmy schedule date picked",weekDates.get(i).toString() );
         });
         Date date = getWeekDates().get(i);
-        Calendar calendar = Calendar.getInstance();
+
+        String adequateDayName = DateConverter.getDayName(date);
+        String adequateMonth = DateConverter.getMonth(date);
+        String dayOfMonth = DateConverter.getDayOfMonth(date);
+        /*Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        String adequateDayName = "";//todo method getAdequateDayName
+        String adequateDayName = "";//todo method getDayName
         switch (calendar.get(Calendar.DAY_OF_WEEK)) {
             case (1): {
                 adequateDayName = "Воскресенье";
@@ -102,8 +108,8 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
                 adequateDayName = "Unavailable";
                 break;
             }
-        }
-        String adequateMonth = "";//todo method getAdequateMonth
+        }*/
+        /*String adequateMonth = "";//todo method getMonth
         switch (calendar.get(Calendar.MONTH) + 1) {
             case 1: {
                 adequateMonth = "Января";
@@ -157,10 +163,11 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
                 adequateMonth = "Unavailable";
                 break;
             }
-        }
+        }*/
 
         viewHolder.tvDayName.setText(adequateDayName);
-        viewHolder.tvDayDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + " " + adequateMonth /*+ " " + calendar.get(Calendar.YEAR) + " года"*/));
+        //viewHolder.tvDayDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + " " + adequateMonth /*+ " " + calendar.get(Calendar.YEAR) + " года"*/));
+        viewHolder.tvDayDate.setText(String.valueOf(dayOfMonth + " " + adequateMonth /*+ " " + calendar.get(Calendar.YEAR) + " года"*/));
 
         //todo
     }

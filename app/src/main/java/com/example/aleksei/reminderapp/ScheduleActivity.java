@@ -1,6 +1,5 @@
 package com.example.aleksei.reminderapp;
 
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.aleksei.reminderapp.model.DataWorker;
 import com.example.aleksei.reminderapp.model.Note;
@@ -35,9 +33,10 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         Toolbar myToolbar = findViewById(R.id.activity_schedule_tb);
+
         setSupportActionBar(myToolbar);
         showLoading();//todo
-        
+
         //NoteDatabase db = Room.databaseBuilder(this,NoteDatabase.class,"database").build();
 
 
@@ -115,11 +114,15 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         super.onResume();
         ////////schedulePresenterInstance.onUIReady();
 
-
+        /*Collections.sort(myList, new Comparator<MyObject>() {
+            public int compare(MyObject o1, MyObject o2) {
+                return o1.getDateTime().compareTo(o2.getDateTime());
+            }
+        });*/
     }
 
     public void onClickAddNewNote(View view) {
-        Intent intent = new Intent(this, NewNoteActivity.class);
+        Intent intent = new Intent(this, AddNoteActivity.class);
         //intent.putExtra("instance", schedulePresenterInstance);
         startActivity(intent);
     }
@@ -136,7 +139,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
 
     @Override
     public void onItemClicked(Date dateOfClickedDay) {
-        Intent intent = new Intent(this, DetailedInfoActivity.class);
+        Intent intent = new Intent(this, DetailedActivity.class);
+        Log.i("timmy schedule activity day picked",dateOfClickedDay.toString() );
+        intent.putExtra("chosenDay", dateOfClickedDay.toString());
         startActivity(intent);
     }
 

@@ -16,16 +16,17 @@ import java.util.List;
 public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRecyclerViewAdapter.ViewHolder> {
 
     //ItemOnLongClickListener onLongClickListener = new ItemOnLongClickListener();
-    Context context;
+
     ItemLongClickedCallback callback;
-    private List<Note> allNoteData;
+    private static List<Note> allNoteData;
+    LayoutInflater inflater;
 
     public List<Note> getAllNoteData() {
         return allNoteData;
     }
 
-    public void setAllNoteData(List<Note> allNoteData) {
-        this.allNoteData = allNoteData;
+    public static void setAllNoteData(List<Note> allData) {
+        allNoteData = allData;
     }
 
 
@@ -38,21 +39,25 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
     }
 
     public DetailedRecyclerViewAdapter(Context context, List<Note> allNoteData) {
-        this.context = context;
+
         this.allNoteData = allNoteData;
+        inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_detailed_rv_item, viewGroup, false);
+        //View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_detailed_rv_item, viewGroup, false);
+        View view = inflater.inflate(R.layout.activity_detailed_rv_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.tvNoteTime.setText("sometime");
-        viewHolder.tvNoteText.setText("sometext");
+        String time = "HH:MM";
+        String note = "Заметка";
+        viewHolder.tvNoteTime.setText(time);
+        viewHolder.tvNoteText.setText(note);
         //todo
 
         viewHolder.container.setOnLongClickListener(v -> {
@@ -68,9 +73,9 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout container;
-        private TextView tvNoteTime;
-        private TextView tvNoteText;
+        public LinearLayout container;
+        public TextView tvNoteTime;
+        public TextView tvNoteText;
 
 
         public ViewHolder(@NonNull View itemView) {
