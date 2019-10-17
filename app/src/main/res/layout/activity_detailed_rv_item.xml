@@ -10,13 +10,17 @@
         android:id="@+id/activity_detailed_tv_notetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Заметок нет"
+        android:textColor="@color/colorDarkSlateGray"
         android:textSize="24sp" />
 
     <TextView
         android:id="@+id/activity_detailed_tv_notetext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Заметок нет"
+        android:layout_marginBottom="10dp"
+        android:lines="2"
+        android:maxLines="2"
+        android:minLines="2"
+        android:textColor="@color/colorDarkSlateGray"
         android:textSize="18sp" />
 </LinearLayout>

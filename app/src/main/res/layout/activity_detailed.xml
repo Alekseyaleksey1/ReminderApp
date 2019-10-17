@@ -18,7 +18,9 @@
         android:id="@+id/activity_detailed_rv_allnotes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"/>
 
     <Button
         android:id="@+id/activity_detailed_btn_addnote"
@@ -27,5 +29,5 @@
         android:layout_gravity="end"
         android:onClick="onClickAddNewNote"
         android:text="+"
-        android:textSize="50sp" />
+        android:textSize="40sp" />
 </LinearLayout>

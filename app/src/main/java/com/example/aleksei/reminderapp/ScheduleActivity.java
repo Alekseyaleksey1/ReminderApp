@@ -3,6 +3,7 @@ package com.example.aleksei.reminderapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +22,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.graphics.drawable.ClipDrawable.HORIZONTAL;
+
 
 public class ScheduleActivity extends AppCompatActivity implements ScheduleInterface, ScheduleRecyclerViewAdapter.ItemClickedCallback {
 
     SchedulePresenter schedulePresenterInstance;
-    RecyclerView recyclerView;
+    RecyclerView scheduleRecyclerView;
     public static ScheduleRecyclerViewAdapter scheduleRecyclerViewAdapter;
 
     @Override
@@ -41,19 +44,19 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
 
 
         //SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
 
 
 
         /*DateFormat.getDateInstance();
         new SimpleDateFormat();*/
-        String currentDateAndTime = sdf.format(new Date());
+        //String currentDateAndTime = sdf.format(new Date());
 
 
         /*TextView textView = findViewById(R.id.textView);
         textView.setText(currentDateAndTime);*/
 
-        Calendar c = Calendar.getInstance();
+        /*Calendar c = Calendar.getInstance();
 
         try {
             c.setTime(sdf.parse(currentDateAndTime));
@@ -63,7 +66,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         c.add(Calendar.DATE, 6);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
-        String output = sdf1.format(c.getTime());
+        String output = sdf1.format(c.getTime());*/
 
         //textView.setText(output);
         //List<Date> dateOfWeekDays = new ArrayList<>();
@@ -82,10 +85,13 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         List<Note> list = new ArrayList<>();
         //list.add(new Note());
 
-        recyclerView = findViewById(R.id.activity_schedule_rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        scheduleRecyclerView = findViewById(R.id.activity_schedule_rv);
+        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         scheduleRecyclerViewAdapter = new ScheduleRecyclerViewAdapter(this, getWeekDate(), list);
-        recyclerView.setAdapter(scheduleRecyclerViewAdapter);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
+        scheduleRecyclerView.addItemDecoration(itemDecor);
+
+        scheduleRecyclerView.setAdapter(scheduleRecyclerViewAdapter);
         schedulePresenterInstance = new SchedulePresenter(this, this, DataWorker.getInstance(this));
         //schedulePresenterInstance.onUIReady();
         scheduleRecyclerViewAdapter.registerForItemClickedCallback(this);

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,9 +21,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.graphics.drawable.ClipDrawable.HORIZONTAL;
 
 public class DetailedActivity extends AppCompatActivity implements DetailedInterface, DetailedRecyclerViewAdapter.ItemLongClickedCallback {
 
@@ -73,7 +78,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
        /* DateConverter.getDayName(dateToShow);
         DateConverter.getDayOfMonth(dateToShow);
         DateConverter.getMonth(dateToShow);*/
-        myToolbar.setTitle(DateConverter.getDayName(dateToShow) + " " + DateConverter.getDayOfMonth(dateToShow) + " " + DateConverter.getMonth(dateToShow));
+        myToolbar.setTitle(DateConverter.getDayOfMonth(dateToShow) + " " + DateConverter.getMonth(dateToShow) + ", " + DateConverter.getDayName(dateToShow));
         //myToolbar.setTitle(dateInString);
 
         setSupportActionBar(myToolbar);
@@ -94,6 +99,8 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
         detailedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailedRecyclerViewAdapter = new DetailedRecyclerViewAdapter(this, listForNotes);
         detailedRecyclerViewAdapter.registerForItemLongClickedCallback(this);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
+        detailedRecyclerView.addItemDecoration(itemDecor);
         detailedRecyclerView.setAdapter(detailedRecyclerViewAdapter);
     }
 
@@ -162,6 +169,14 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
                 listToShow.add(note);
             }
         }*/
+
+        Collections.sort(listToShow, new Comparator<Note>() {
+            public int compare(Note o1, Note o2) {
+                if (o1.getNoteDate() == null || o2.getNoteDate() == null)
+                    return 0;
+                return o1.getNoteDate().compareTo(o2.getNoteDate());
+            }
+        });
 
 
         detailedRecyclerViewAdapter.setAllNoteData(listToShow);

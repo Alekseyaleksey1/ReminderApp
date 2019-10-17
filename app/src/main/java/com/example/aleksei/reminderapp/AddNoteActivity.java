@@ -41,7 +41,7 @@ public class AddNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newnote);
+        setContentView(R.layout.activity_addnote);
         Toolbar myToolbar = findViewById(R.id.activity_newnote_tb);
         setSupportActionBar(myToolbar);
 
