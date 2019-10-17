@@ -21,6 +21,7 @@ import com.example.aleksei.reminderapp.presenter.NewNotePresenter;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class AddNoteActivity extends AppCompatActivity {
 
@@ -29,11 +30,11 @@ public class AddNoteActivity extends AppCompatActivity {
     String pickedTime;
     TextView tvDateAndTime;
     NewNotePresenter newNotePresenterInstance;
-    int mYear;
-    int mMonth;
-    int mDay;
-    int mHour;
-    int mMinute;
+    int yearToSet;
+    int monthToSet;
+    int dayToSet;
+    int hourToSet;
+    int minuteToSet;
     Date dateToAdd;
     String textToAdd;
 
@@ -72,9 +73,9 @@ public class AddNoteActivity extends AppCompatActivity {
     private void pickDate() {
 
         final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -82,6 +83,11 @@ public class AddNoteActivity extends AppCompatActivity {
                 //todo restriction in adding note to past days
                 pickedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                 pickTime();
+
+                yearToSet = year;
+                monthToSet = month;
+                dayToSet = dayOfMonth;
+
             }
         }, mYear, mMonth, mDay);
 
@@ -91,22 +97,24 @@ public class AddNoteActivity extends AppCompatActivity {
 
     private void pickTime() {
         final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
+        int mMinute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                pickedTime = hourOfDay + ":" + minute;
+                pickedTime = String.format(Locale.US, "%02d:%02d", hourOfDay, minute);
 
                 Calendar c2 = Calendar.getInstance();
-                if ((hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE)))
+                //if(c2.get(Calendar.DAY_OF_MONTH)==dayToSet)
+                if ((c2.get(Calendar.DAY_OF_MONTH) == dayToSet) && ((hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE))))
                 )) {
                     Toast.makeText(getApplicationContext(), "Нельзя установить прошедшее и текущее время", Toast.LENGTH_LONG).show();
                 } else {
-                    tvDateAndTime.setText(pickedTime + " " + pickedDate);//todo формат 09:00 вместо 9:0
+
+                    tvDateAndTime.setText(pickedTime + " " + pickedDate);//todo формат 09:00 вместо 9:0 - есть 106 строка
                     Calendar calendar = Calendar.getInstance();
-                    calendar.set(mYear, mMonth, mDay, mHour, mMinute);
+                    calendar.set(yearToSet, monthToSet, dayToSet, hourOfDay, minute, 0);
                     dateToAdd = calendar.getTime();
 
                 }
@@ -118,11 +126,11 @@ public class AddNoteActivity extends AppCompatActivity {
 
     public void saveNewNote(View view) {
 
-        if (edNoteText.getText().toString().length() < 1 || pickedDate == null || pickedTime == null) {
+        if (edNoteText.getText().toString().length() < 1 || pickedDate == null || pickedTime == null || dateToAdd == null) {
             Toast.makeText(this, "Проверьте введена ли заметка и выставлена ли дата", Toast.LENGTH_SHORT).show();
         } else {
             //todo insert into db
-            Log.i("timmy",dateToAdd.toString());//Wed Oct 16 15:36:50 GMT+00:00
+            Log.i("timmy", dateToAdd.toString());//Wed Oct 16 15:36:50 GMT+00:00
             newNotePresenterInstance = new NewNotePresenter(this, DataWorker.getInstance(this));
             newNotePresenterInstance.onAddNote(new Note(dateToAdd, edNoteText.getText().toString()));
             finish();

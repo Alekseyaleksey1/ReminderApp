@@ -11,21 +11,23 @@ import android.widget.TextView;
 
 import com.example.aleksei.reminderapp.model.Note;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRecyclerViewAdapter.ViewHolder> {
 
     //ItemOnLongClickListener onLongClickListener = new ItemOnLongClickListener();
 
     ItemLongClickedCallback callback;
-    private static List<Note> allNoteData;
+    private List<Note> allNoteData;
     LayoutInflater inflater;
 
     public List<Note> getAllNoteData() {
         return allNoteData;
     }
 
-    public static void setAllNoteData(List<Note> allData) {
+    public void setAllNoteData(List<Note> allData) {
         allNoteData = allData;
     }
 
@@ -38,9 +40,9 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
         void onItemLongClicked(Note note);
     }
 
-    public DetailedRecyclerViewAdapter(Context context, List<Note> allNoteData) {
+    public DetailedRecyclerViewAdapter(Context context, List<Note> allData) {
 
-        this.allNoteData = allNoteData;
+        allNoteData = allData;
         inflater = LayoutInflater.from(context);
     }
 
@@ -54,10 +56,17 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<DetailedRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String time = "HH:MM";
-        String note = "Заметка";
-        viewHolder.tvNoteTime.setText(time);
-        viewHolder.tvNoteText.setText(note);
+        /*String time = "HH:MM";
+        String note = "Заметка";*/
+        String noteText = allNoteData.get(i).getNoteText();//todo format string 00 00
+        Date date = allNoteData.get(i).getNoteDate();
+        /*DateConverter.getHour(date);
+        DateConverter.getMinute(date);*/
+
+        //String.format(Locale.US, "%02d:%02d", hourOfDay, minute);
+        String timeToShow = String.format(Locale.US, "%02d:%02d", Integer.valueOf(DateConverter.getHour(date)), Integer.valueOf(DateConverter.getMinute(date)));
+        viewHolder.tvNoteTime.setText(timeToShow);
+        viewHolder.tvNoteText.setText(noteText);
         //todo
 
         viewHolder.container.setOnLongClickListener(v -> {

@@ -64,7 +64,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         viewHolder.container.setOnClickListener(v -> {
             //weekDates.get(i);
             callback.onItemClicked(weekDates.get(i));
-            Log.i("timmy schedule date picked",weekDates.get(i).toString() );
+            Log.i("timmyscheduledatepicked",weekDates.get(i).toString() );
         });
         Date date = getWeekDates().get(i);
 
@@ -72,7 +72,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         String adequateMonth = DateConverter.getMonth(date);
         String dayOfMonth = DateConverter.getDayOfMonth(date);
         /*Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        calendar.setTime(dateNotesToShow);
 
         String adequateDayName = "";//todo method getDayName
         switch (calendar.get(Calendar.DAY_OF_WEEK)) {

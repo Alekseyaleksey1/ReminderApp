@@ -3,6 +3,9 @@ package com.example.aleksei.reminderapp.model;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -59,5 +62,22 @@ public class DataWorker {
     public Single<List<Note>> getNotes() {
         return getDb().getNotesDao().getAllNotes()
                 .subscribeOn(Schedulers.io());
+    }
+
+    public List<Note> getNotesToDate(Date date, List<Note> notes){
+
+        List<Note> listToShow = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        for (Note note : notes) {
+            Date tempDate = note.getNoteDate();
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTime(tempDate);
+            if (calendar.get(Calendar.DAY_OF_MONTH) == calendar1.get(Calendar.DAY_OF_MONTH)) {
+                listToShow.add(note);
+            }
+        }
+        return listToShow;
     }
 }

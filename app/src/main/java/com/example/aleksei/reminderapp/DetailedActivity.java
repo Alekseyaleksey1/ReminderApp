@@ -19,28 +19,30 @@ import com.example.aleksei.reminderapp.presenter.DetailedPresenter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class DetailedActivity extends AppCompatActivity implements DetailedRecyclerViewAdapter.ItemLongClickedCallback {
+public class DetailedActivity extends AppCompatActivity implements DetailedInterface, DetailedRecyclerViewAdapter.ItemLongClickedCallback {
 
     DetailedPresenter detailedPresenterInstance;
     public static DetailedRecyclerViewAdapter detailedRecyclerViewAdapter;
     RecyclerView detailedRecyclerView;
 
     Button addNewNote;
+    Date dateToShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
         Toolbar myToolbar = findViewById(R.id.activity_detailed_tb);
-        String date = getIntent().getStringExtra("chosenDay");
+        String dateInString = getIntent().getStringExtra("chosenDay");
         SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
-        Date tempDate = new Date();
+        dateToShow = new Date();
         try {
-            tempDate = format.parse(date);
+            dateToShow = format.parse(dateInString);
             Log.i("timmy detailed date", "success");
         } catch (ParseException e) {
             Log.i("timmy detailed date", "exception");
@@ -53,33 +55,33 @@ public class DetailedActivity extends AppCompatActivity implements DetailedRecyc
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         DateConverter.getDayName(sdf);
         try {
-            cal.setTime(sdf.parse(date));// all done
-            Log.i("timmy detailed date", "success");
+            cal.setTime(sdf.parse(dateInString));// all done
+            Log.i("timmy detailed dateInString", "success");
         } catch (ParseException e) {
-            Log.i("timmy detailed date", "exception");
+            Log.i("timmy detailed dateInString", "exception");
             e.printStackTrace();
         }*/
 
         /*try {
-            Date tempDate = new SimpleDateFormat("EE MM dd yy HH:mm:ss", Locale.US).parse(date);
-            Log.i("timmy detailed date", tempDate.toString());
+            Date dateToShow = new SimpleDateFormat("EE MM dd yy HH:mm:ss", Locale.US).parse(dateInString);
+            Log.i("timmy detailed dateInString", dateToShow.toString());
         } catch (ParseException e) {
-            Log.i("timmy detailed date", "exception");
+            Log.i("timmy detailed dateInString", "exception");
             e.printStackTrace();
         }*/
-        Log.i("timmy detailed date", date);
-       /* DateConverter.getDayName(tempDate);
-        DateConverter.getDayOfMonth(tempDate);
-        DateConverter.getMonth(tempDate);*/
-        myToolbar.setTitle(DateConverter.getDayName(tempDate)+" "+DateConverter.getDayOfMonth(tempDate)+" "+DateConverter.getMonth(tempDate));
-        //myToolbar.setTitle(date);
+        Log.i("timmy detailed date", dateInString);
+       /* DateConverter.getDayName(dateToShow);
+        DateConverter.getDayOfMonth(dateToShow);
+        DateConverter.getMonth(dateToShow);*/
+        myToolbar.setTitle(DateConverter.getDayName(dateToShow) + " " + DateConverter.getDayOfMonth(dateToShow) + " " + DateConverter.getMonth(dateToShow));
+        //myToolbar.setTitle(dateInString);
 
         setSupportActionBar(myToolbar);
 
         addNewNote = findViewById(R.id.activity_detailed_btn_addnote);
 
 
-        detailedPresenterInstance = new DetailedPresenter(this, DataWorker.getInstance(this));
+        detailedPresenterInstance = new DetailedPresenter(this, this, dateToShow, DataWorker.getInstance(this));
 
         List<Note> listForNotes = new ArrayList<>();
         /*listForNotes.add(new Note(new Date(), "Сообщение1"));
@@ -98,7 +100,14 @@ public class DetailedActivity extends AppCompatActivity implements DetailedRecyc
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("timmy", "detailed activity resumed");
         detailedPresenterInstance.onUIReady();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("timmy", "detailed activity paused");
     }
 
     public void onClickAddNewNote(View view) {
@@ -115,6 +124,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedRecyc
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         detailedPresenterInstance.onRemoveNote(noteToRemove);
+                        //detailedPresenterInstance.getNotesFromDatabase();
                     }
                 })
                 .setNegativeButton("Отмена",
@@ -135,5 +145,26 @@ public class DetailedActivity extends AppCompatActivity implements DetailedRecyc
     @Override
     public void onItemLongClicked(Note note) {
         removeNote(note);
+    }
+
+    @Override
+    public void setDataToList(List<Note> listToShow) {
+
+        /*List<Note> listToShow = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateToShow);
+
+        for (Note note : allNotes) {
+            Date tempDate = note.getNoteDate();
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTime(tempDate);
+            if (calendar.get(Calendar.DAY_OF_MONTH) == calendar1.get(Calendar.DAY_OF_MONTH)) {
+                listToShow.add(note);
+            }
+        }*/
+
+
+        detailedRecyclerViewAdapter.setAllNoteData(listToShow);
+        detailedRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

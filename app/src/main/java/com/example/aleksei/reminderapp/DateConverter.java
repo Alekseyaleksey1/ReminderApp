@@ -5,6 +5,19 @@ import java.util.Date;
 
 public class DateConverter {//todo move to MODEL
 
+
+    public static String getMinute(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return String.valueOf(calendar.get(Calendar.MINUTE));
+    }
+
+    public static String getHour(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+    }
+
     public static String getDayOfMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

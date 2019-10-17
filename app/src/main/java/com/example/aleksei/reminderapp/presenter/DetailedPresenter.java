@@ -4,10 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.aleksei.reminderapp.DetailedActivity;
+import com.example.aleksei.reminderapp.DetailedInterface;
 import com.example.aleksei.reminderapp.DetailedRecyclerViewAdapter;
 import com.example.aleksei.reminderapp.model.DataWorker;
 import com.example.aleksei.reminderapp.model.Note;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -20,14 +22,18 @@ public class DetailedPresenter {
     private Context context;
     private CompositeDisposable disposable;//todo один disposable для всех
     private DataWorker dataWorker;
+    DetailedInterface detailedInterfaceInstance;
+    Date dateToShow;
 
-    public DetailedPresenter(Context context, DataWorker dataWorker) {
+    public DetailedPresenter(Context context, DetailedInterface detailedInterfaceInstance, Date dateToShow, DataWorker dataWorker) {
         this.context = context;
         this.dataWorker = dataWorker;
         disposable = new CompositeDisposable();
+        this.detailedInterfaceInstance = detailedInterfaceInstance;
+        this.dateToShow = dateToShow;
     }
 
-    public void onUIReady(){
+    public void onUIReady() {
         getNotesFromDatabase();
     }
 
@@ -36,9 +42,14 @@ public class DetailedPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
-                    public void accept(List<Note> notes) {
-                        DetailedRecyclerViewAdapter.setAllNoteData(notes);
-                        DetailedActivity.detailedRecyclerViewAdapter.notifyDataSetChanged();
+                    public void accept(List<Note> allNotes) {
+
+                        List<Note> notesToShow = dataWorker.getNotesToDate(dateToShow, allNotes);
+
+                        detailedInterfaceInstance.setDataToList(notesToShow);
+                        /*DetailedRecyclerViewAdapter.setAllNoteData(allNotes); БЫЛО
+                        DetailedActivity.detailedRecyclerViewAdapter.notifyDataSetChanged();*/
+                        Log.i("timmy", "gotNotesFromDB");
                         //todo hide loading
                         /*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
                         RepositoriesFragment.recyclerViewAdapter.notifyDataSetChanged();
@@ -60,13 +71,14 @@ public class DetailedPresenter {
     }
 
 
-     private void removeNote(Note noteToDelete) {
+    private void removeNote(Note noteToDelete) {
         disposable.add(dataWorker.removeNoteFromDatabase(noteToDelete)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() {
                         Log.i("timmy", "заметка удалена");
+                        getNotesFromDatabase();
                     }
                 }));
 

@@ -90,8 +90,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         //schedulePresenterInstance.onUIReady();
         scheduleRecyclerViewAdapter.registerForItemClickedCallback(this);
         /*List<Date> weekDate = getWeekDate();
-        for (Date date : weekDate) {
-            Log.i("timmy", date.toString());
+        for (Date dateNotesToShow : weekDate) {
+            Log.i("timmy", dateNotesToShow.toString());
         }*/
     }
 
@@ -140,7 +140,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
     @Override
     public void onItemClicked(Date dateOfClickedDay) {
         Intent intent = new Intent(this, DetailedActivity.class);
-        Log.i("timmy schedule activity day picked",dateOfClickedDay.toString() );
+        Log.i("timmyscheduledaypicked",dateOfClickedDay.toString() );
         intent.putExtra("chosenDay", dateOfClickedDay.toString());
         startActivity(intent);
     }
