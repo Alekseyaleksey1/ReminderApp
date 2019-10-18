@@ -24,13 +24,11 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteInterfa
     AddNotePresenter addNotePresenterInstance;
     EditText edNoteText;
     TextView tvDateAndTime;
-
     int yearToSet;
     int monthToSet;
     int dayToSet;
     int hourToSet;
     int minuteToSet;
-
     Date dateToAdd;
 
     @Override
@@ -80,7 +78,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteInterfa
         int currentMinute = calendarToday.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
-
 
             hourToSet = hourOfDay;
             minuteToSet = minute;

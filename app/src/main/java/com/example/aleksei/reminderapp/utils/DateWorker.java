@@ -38,6 +38,7 @@ public class DateWorker {
     }
 
     public static String getDayName(Date date) {
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
