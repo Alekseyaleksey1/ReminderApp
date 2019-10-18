@@ -1,6 +1,6 @@
 package com.example.aleksei.reminderapp.presenter;
 
-import com.example.aleksei.reminderapp.utils.DayModel;
+import com.example.aleksei.reminderapp.utils.DayPojo;
 import com.example.aleksei.reminderapp.view.ScheduleInterface;
 import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
@@ -33,7 +33,7 @@ public class SchedulePresenter {
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
                     public void accept(List<Note> allNotes) {
-                        List<DayModel> listOfNotedWeekDays = dataStore.fetchDataToShow(allNotes);
+                        List<DayPojo> listOfNotedWeekDays = dataStore.fetchDataToShow(allNotes);
                         scheduleInterfaceInstance.setDataToList(listOfNotedWeekDays);
                     }
                 }));

@@ -4,7 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.example.aleksei.reminderapp.utils.DateWorker;
-import com.example.aleksei.reminderapp.utils.DayModel;
+import com.example.aleksei.reminderapp.utils.DayPojo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,10 +82,10 @@ public class DataStore {
         return listOfNotesToDate;
     }
 
-    public List<DayModel> fetchDataToShow(List<Note> allNotes) {
+    public List<DayPojo> fetchDataToShow(List<Note> allNotes) {
 
         List<Date> dateOfWeekDays = DateWorker.getWeekDates();
-        List<DayModel> listOfNotedWeekDays = new ArrayList<>();
+        List<DayPojo> listOfNotedWeekDays = new ArrayList<>();
         Calendar calendarOfDayDate = Calendar.getInstance();
         Calendar calendarOfNoteDate = Calendar.getInstance();
 
@@ -99,7 +99,7 @@ public class DataStore {
                     noteListForDay.add(note);
                 }
             }
-            listOfNotedWeekDays.add(new DayModel(dateDayOfWeek, noteListForDay));
+            listOfNotedWeekDays.add(new DayPojo(dateDayOfWeek, noteListForDay));
         }
         return listOfNotedWeekDays;
     }

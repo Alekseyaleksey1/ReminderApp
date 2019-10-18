@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.example.aleksei.reminderapp.R;
 import com.example.aleksei.reminderapp.model.DataStore;
-import com.example.aleksei.reminderapp.utils.DayModel;
+import com.example.aleksei.reminderapp.utils.DayPojo;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.SchedulePresenter;
 import com.example.aleksei.reminderapp.utils.DateWorker;
@@ -36,11 +36,11 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         Toolbar myToolbar = findViewById(R.id.activity_schedule_tb);
         setSupportActionBar(myToolbar);
 
-        List<DayModel> listOfWeekDays = new ArrayList<>();
+        List<DayPojo> listOfWeekDays = new ArrayList<>();
         List<Date> dateOfWeekDays = DateWorker.getWeekDates();
         for (Date dateDayOfWeek : dateOfWeekDays) {
             List<Note> noteList = new ArrayList<>();
-            listOfWeekDays.add(new DayModel(dateDayOfWeek, noteList));
+            listOfWeekDays.add(new DayPojo(dateDayOfWeek, noteList));
         }
 
         schedulePresenterInstance = new SchedulePresenter(this, DataStore.getInstance(this));
@@ -66,7 +66,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
     }
 
     @Override
-    public void setDataToList(List<DayModel> listToShow) {
+    public void setDataToList(List<DayPojo> listToShow) {
         scheduleAdapter.setListOfWeekDays(listToShow);
         scheduleAdapter.notifyDataSetChanged();
     }

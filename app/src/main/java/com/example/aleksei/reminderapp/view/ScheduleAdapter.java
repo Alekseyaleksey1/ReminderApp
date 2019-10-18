@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.aleksei.reminderapp.R;
-import com.example.aleksei.reminderapp.utils.DayModel;
+import com.example.aleksei.reminderapp.utils.DayPojo;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.utils.DateWorker;
 
@@ -22,18 +22,18 @@ import java.util.Locale;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<DayModel> listOfWeekDays;
+    private List<DayPojo> listOfWeekDays;
     private ItemClickedCallback callback;
 
-    private List<DayModel> getListOfWeekDays() {
+    private List<DayPojo> getListOfWeekDays() {
         return listOfWeekDays;
     }
 
-    void setListOfWeekDays(List<DayModel> listOfWeekDays) {
+    void setListOfWeekDays(List<DayPojo> listOfWeekDays) {
         this.listOfWeekDays = listOfWeekDays;
     }
 
-    ScheduleAdapter(Context context, List<DayModel> listOfWeekDays) {
+    ScheduleAdapter(Context context, List<DayPojo> listOfWeekDays) {
         inflater = LayoutInflater.from(context);
         this.listOfWeekDays = listOfWeekDays;
     }
@@ -85,10 +85,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                 String minute = DateWorker.getMinute(listOfDayNotes.get(k).getNoteDate());
                 String noteText = listOfDayNotes.get(k).getNoteText();
                 if (k < textViews.size()) {
-                    //работает String noteFullTime = String.format(Locale.US, "%02d:%02d", Integer.valueOf(hour), Integer.valueOf(minute));
-                    //String noteFullTime = String.format(Locale.US, "%02d:%02d %s", Integer.valueOf(hour), Integer.valueOf(minute),listOfDayNotes.get(k).getNoteText());
                     String noteFullTime = String.format(Locale.US, "%02d:%02d %s", Integer.valueOf(hour), Integer.valueOf(minute), noteText);
-                    //textViews.get(k).setText(noteFullTime + " " + listOfDayNotes.get(k).getNoteText());
                     textViews.get(k).setText(noteFullTime);
                 } else break;
             }

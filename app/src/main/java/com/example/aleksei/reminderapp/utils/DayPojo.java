@@ -5,7 +5,7 @@ import com.example.aleksei.reminderapp.model.Note;
 import java.util.Date;
 import java.util.List;
 
-public class DayModel {
+public class DayPojo {
 
     private Date dateOfDay;
 
@@ -19,7 +19,7 @@ public class DayModel {
         return notesOfDay;
     }
 
-    public DayModel(Date dateOfDay, List<Note> notesOfDay) {
+    public DayPojo(Date dateOfDay, List<Note> notesOfDay) {
         this.dateOfDay = dateOfDay;
         this.notesOfDay = notesOfDay;
     }
