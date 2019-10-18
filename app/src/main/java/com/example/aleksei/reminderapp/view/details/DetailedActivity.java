@@ -55,7 +55,6 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
         String dayOfMonth = DateWorker.getDayOfMonth(dateToShow);
         String month = DateWorker.getMonth(dateToShow);
         String dayName = DateWorker.getDayName(dateToShow);
-
         String toolBarTitle = String.format(Locale.US, "%s %s, %s", dayOfMonth, month, dayName);
         detailedToolbar.setTitle(toolBarTitle);
         setSupportActionBar(detailedToolbar);
