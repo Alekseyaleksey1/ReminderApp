@@ -18,11 +18,11 @@
         android:id="@+id/activity_newnote_et_notetext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:clickable="true"
         android:ems="10"
         android:focusable="true"
-        android:hint="Введите текст заметки"
+        android:hint="@string/activity_newnote_et_notetext_hint"
         android:inputType="textMultiLine|textCapSentences"
         android:lines="2"
         android:maxLength="100"
@@ -33,7 +33,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:onClick="setDateAndTime"
         android:orientation="horizontal">
 
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center|start"
-            android:text="На дату:"
+            android:text="@string/activity_newnote_tv_hintdateandtime"
             android:textSize="18sp" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:background="?attr/editTextBackground"
             android:gravity="center"
-            android:hint="+"
+            android:hint="@string/activity_newnote_tv_dateandtime"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -62,7 +62,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="saveNewNote"
-        android:text="Сохранить" />
-
-
+        android:text="@string/activity_newnote_btn_savenote" />
 </LinearLayout>

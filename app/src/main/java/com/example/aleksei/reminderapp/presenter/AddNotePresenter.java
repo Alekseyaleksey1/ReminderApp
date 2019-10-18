@@ -1,8 +1,5 @@
 package com.example.aleksei.reminderapp.presenter;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 
@@ -12,28 +9,25 @@ import io.reactivex.functions.Action;
 
 public class AddNotePresenter {
 
-    //private Context context;
     private CompositeDisposable disposable;
     private DataStore dataStore;
 
-    public AddNotePresenter(Context context, DataStore dataStore) {
-        //this.context = context;
-        this.dataStore = dataStore;
+    public AddNotePresenter(DataStore dataStore) {
         disposable = new CompositeDisposable();
+        this.dataStore = dataStore;
     }
 
-    public void addNote(Note noteToSave) {
+    private void addNote(Note noteToSave) {
         disposable.add(dataStore.saveNoteToDatabase(noteToSave)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() {
-                        Log.i("timmy","заметка добавлена");
-                    }
-                }));
+                .subscribe());
     }
 
-    public void onAddNote(Note noteToSave){
+    public void onAddNote(Note noteToSave) {
         addNote(noteToSave);
+    }
+
+    public void disposeDisposables() {
+        disposable.dispose();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.aleksei.reminderapp;
+package com.example.aleksei.reminderapp.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,10 +9,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.aleksei.reminderapp.R;
 import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.DetailedPresenter;
@@ -32,7 +32,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
     DetailedPresenter detailedPresenterInstance;
     public DetailedAdapter detailedAdapter;
     RecyclerView detailedRecyclerView;
-
+    Toolbar detailedToolbar;
     Button addNewNote;
     Date dateToShow;
 
@@ -40,59 +40,27 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
-        Toolbar myToolbar = findViewById(R.id.activity_detailed_tb);
+
+        addNewNote = findViewById(R.id.activity_detailed_btn_addnote);
+
+        detailedToolbar = findViewById(R.id.activity_detailed_tb);
         String dateInString = getIntent().getStringExtra("chosenDay");
         SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
         dateToShow = new Date();
         try {
             dateToShow = format.parse(dateInString);
-            Log.i("timmy detailed date", "success");
         } catch (ParseException e) {
-            Log.i("timmy detailed date", "exception");
             e.printStackTrace();
         }
+        detailedToolbar.setTitle(DateWorker.getDayOfMonth(dateToShow) + " " + DateWorker.getMonth(dateToShow) + ", " + DateWorker.getDayName(dateToShow));
+        setSupportActionBar(detailedToolbar);
 
 
 
-       /* Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        DateWorker.getDayName(sdf);
-        try {
-            cal.setTime(sdf.parse(dateInString));// all done
-            Log.i("timmy detailed dateInString", "success");
-        } catch (ParseException e) {
-            Log.i("timmy detailed dateInString", "exception");
-            e.printStackTrace();
-        }*/
 
-        /*try {
-            Date dateToShow = new SimpleDateFormat("EE MM dd yy HH:mm:ss", Locale.US).parse(dateInString);
-            Log.i("timmy detailed dateInString", dateToShow.toString());
-        } catch (ParseException e) {
-            Log.i("timmy detailed dateInString", "exception");
-            e.printStackTrace();
-        }*/
-        //Log.i("timmy detailed date", dateInString);
-       /* DateWorker.getDayName(dateToShow);
-        DateWorker.getDayOfMonth(dateToShow);
-        DateWorker.getMonth(dateToShow);*/
-        myToolbar.setTitle(DateWorker.getDayOfMonth(dateToShow) + " " + DateWorker.getMonth(dateToShow) + ", " + DateWorker.getDayName(dateToShow));
-        //myToolbar.setTitle(dateInString);
-
-        setSupportActionBar(myToolbar);
-
-        addNewNote = findViewById(R.id.activity_detailed_btn_addnote);
-
-
-        detailedPresenterInstance = new DetailedPresenter(this, this, dateToShow, DataStore.getInstance(this));
+        detailedPresenterInstance = new DetailedPresenter(this, dateToShow, DataStore.getInstance(this));
 
         List<Note> listForNotes = new ArrayList<>();
-        /*listForNotes.add(new Note(new Date(), "Сообщение1"));
-        listForNotes.add(new Note(new Date(), "Сообщение2"));
-        listForNotes.add(new Note(new Date(), "Сообщение3"));
-        listForNotes.add(new Note(new Date(), "Сообщение4"));
-        listForNotes.add(new Note(new Date(), "Сообщение5"));*/
-
         detailedRecyclerView = findViewById(R.id.activity_detailed_rv_allnotes);
         detailedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailedAdapter = new DetailedAdapter(this, listForNotes);
@@ -105,11 +73,18 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
     @Override
     protected void onResume() {
         super.onResume();
-        //Log.i("timmy", "detailed activity resumed");
         detailedPresenterInstance.onUIReady();
     }
 
-   /* @Override
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detailedPresenterInstance.disposeDisposables();
+    }
+
+    private void configToolbar(String dateToShow) {
+    }
+    /* @Override
     protected void onPause() {
         super.onPause();
         Log.i("timmy", "detailed activity paused");

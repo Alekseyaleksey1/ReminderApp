@@ -2,7 +2,6 @@ package com.example.aleksei.reminderapp.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-
 import java.util.Date;
 
 @Entity
@@ -27,17 +26,9 @@ public class Note {
         return noteDate;
     }
 
-    /*public void setNoteDate(Date noteDate) {
-        this.noteDate = noteDate;
-    }*/
-
     public String getNoteText() {
         return noteText;
     }
-
-   /* public void setNoteText(String noteText) {
-        this.noteText = noteText;
-    }*/
 
     public Note(Date noteDate, String noteText) {
         this.noteDate = noteDate;

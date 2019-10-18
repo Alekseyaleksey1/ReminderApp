@@ -10,24 +10,22 @@ public class DateWorker {
     public static List<Date> getWeekDates() {
         List<Date> dateOfWeekDays = new ArrayList<>();
         for (int i = 0; i <= 6; i++) {
-            Calendar calendar = Calendar.getInstance();
-            Date currentDate = calendar.getTime();
-            calendar.setTime(currentDate);
-            int numberOfDay = calendar.get(Calendar.DATE);
-            calendar.set(Calendar.DATE, numberOfDay + i);
-            Date tempDate = calendar.getTime();
-            dateOfWeekDays.add(tempDate);
+            Calendar calendarCurrentDate = Calendar.getInstance();
+            int dayOfMonth = calendarCurrentDate.get(Calendar.DAY_OF_MONTH);
+            calendarCurrentDate.set(Calendar.DAY_OF_MONTH, dayOfMonth + i);
+            Date fillerDate = calendarCurrentDate.getTime();
+            dateOfWeekDays.add(fillerDate);
         }
         return dateOfWeekDays;
     }
 
-    public static String getMinute(Date date){
+    public static String getMinute(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return String.valueOf(calendar.get(Calendar.MINUTE));
     }
 
-    public static String getHour(Date date){
+    public static String getHour(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));

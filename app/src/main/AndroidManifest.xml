@@ -9,14 +9,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
 
-        <activity android:name=".ScheduleActivity">
+        <activity android:name=".view.ScheduleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".DetailedActivity"/>
-        <activity android:name=".AddNoteActivity"/>
+        <activity android:name=".view.DetailedActivity"/>
+        <activity android:name=".view.AddNoteActivity"/>
     </application>
 </manifest>

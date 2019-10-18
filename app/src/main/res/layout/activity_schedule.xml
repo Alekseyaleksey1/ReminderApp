@@ -2,43 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_schedule_tb"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-   <!-- <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />-->
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_schedule_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:fadeScrollbars="false">
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical">
 
     </android.support.v7.widget.RecyclerView>
 
     <Button
-
         android:id="@+id/activity_schedule_btn_addnote"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="end"
         android:onClick="onClickAddNewNote"
-        android:text="+"
+        android:text="@string/activity_schedule_btn_addnote"
         android:textSize="40sp" />
-
 </LinearLayout>

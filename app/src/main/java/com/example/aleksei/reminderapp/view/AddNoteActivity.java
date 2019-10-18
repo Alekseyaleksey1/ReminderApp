@@ -1,4 +1,4 @@
-package com.example.aleksei.reminderapp;
+package com.example.aleksei.reminderapp.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.aleksei.reminderapp.R;
 import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.AddNotePresenter;
@@ -22,11 +23,11 @@ import java.util.Locale;
 
 public class AddNoteActivity extends AppCompatActivity {
 
+    AddNotePresenter addNotePresenterInstance;
     EditText edNoteText;
     String pickedDate;
     String pickedTime;
     TextView tvDateAndTime;
-    AddNotePresenter addNotePresenterInstance;
     int yearToSet;
     int monthToSet;
     int dayToSet;
@@ -45,23 +46,13 @@ public class AddNoteActivity extends AppCompatActivity {
         edNoteText = findViewById(R.id.activity_newnote_et_notetext);
         tvDateAndTime = findViewById(R.id.activity_newnote_tv_dateandtime);
 
-        addNotePresenterInstance = new AddNotePresenter(this, DataStore.getInstance(this));
-       /* edNoteText.addTextChangedListener(new TextWatcher() {//todo перенос на след строку + 2 строки максимум
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        addNotePresenterInstance = new AddNotePresenter(DataStore.getInstance(this));
+    }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //todo restriction in 100 symbols
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        addNotePresenterInstance.disposeDisposables();
     }
 
     public void setDateAndTime(View view) {

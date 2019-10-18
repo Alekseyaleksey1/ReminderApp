@@ -1,7 +1,6 @@
 package com.example.aleksei.reminderapp.model;
 
 import android.arch.persistence.room.TypeConverter;
-
 import java.util.Date;
 
 class Converters {
