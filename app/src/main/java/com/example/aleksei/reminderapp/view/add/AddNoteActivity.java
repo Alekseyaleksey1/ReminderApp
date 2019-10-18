@@ -21,15 +21,15 @@ import java.util.Locale;
 
 public class AddNoteActivity extends AppCompatActivity implements AddNoteInterface {
 
-    AddNotePresenter addNotePresenterInstance;
-    EditText edNoteText;
-    TextView tvDateAndTime;
-    int yearToSet;
-    int monthToSet;
-    int dayToSet;
-    int hourToSet;
-    int minuteToSet;
-    Date dateToAdd;
+    private AddNotePresenter addNotePresenterInstance;
+    private EditText edNoteText;
+    private TextView tvDateAndTime;
+    private int yearToSet;
+    private int monthToSet;
+    private int dayToSet;
+    private int hourToSet;
+    private int minuteToSet;
+    private Date dateToAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

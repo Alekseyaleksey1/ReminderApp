@@ -30,19 +30,15 @@ import static com.example.aleksei.reminderapp.view.schedule.ScheduleActivity.DAY
 
 public class DetailedActivity extends AppCompatActivity implements DetailedInterface, DetailedAdapter.ItemLongClickedCallback {
 
-    DetailedPresenter detailedPresenterInstance;
-    DetailedAdapter detailedAdapter;
-    RecyclerView detailedRecyclerView;
-    Toolbar detailedToolbar;
-    Button addNewNote;
+    private DetailedPresenter detailedPresenterInstance;
+    private DetailedAdapter detailedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
-
-        addNewNote = findViewById(R.id.activity_detailed_btn_addnote);
-        detailedToolbar = findViewById(R.id.activity_detailed_tb);
+        
+        Toolbar detailedToolbar = findViewById(R.id.activity_detailed_tb);
 
         String dateInString = getIntent().getStringExtra(DAY_KEY);
         SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
@@ -62,7 +58,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
         detailedPresenterInstance = new DetailedPresenter(this, dateToShow, DataStore.getInstance(this));
 
         List<Note> listForNotes = new ArrayList<>();
-        detailedRecyclerView = findViewById(R.id.activity_detailed_rv_allnotes);
+        RecyclerView detailedRecyclerView = findViewById(R.id.activity_detailed_rv_allnotes);
         detailedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailedAdapter = new DetailedAdapter(this, listForNotes);
         detailedAdapter.registerForItemLongClickedCallback(this);
