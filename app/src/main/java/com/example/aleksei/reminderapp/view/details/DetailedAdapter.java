@@ -1,4 +1,4 @@
-package com.example.aleksei.reminderapp.view;
+package com.example.aleksei.reminderapp.view.details;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -74,9 +74,9 @@ public class DetailedAdapter extends RecyclerView.Adapter<DetailedAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout container;
-        TextView tvNoteTime;
-        TextView tvNoteText;
+        private LinearLayout container;
+        private TextView tvNoteTime;
+        private TextView tvNoteText;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
@@ -39,30 +38,26 @@ public class DataStore {
 
     public Completable saveNoteToDatabase(final Note noteToAdd) {
         return Completable
-                .create(new CompletableOnSubscribe() {
-                    @Override
-                    public void subscribe(CompletableEmitter emitter) {
-                        getDatabase().getNotesDao().insert(noteToAdd);
-                        emitter.onComplete();
-                    }
+                .create(emitter -> {
+                    getDatabase().getNotesDao().insert(noteToAdd);
+                    emitter.onComplete();
                 })
                 .subscribeOn(Schedulers.io());
     }
 
     public Completable removeNoteFromDatabase(final Note noteToDelete) {
         return Completable
-                .create(new CompletableOnSubscribe() {
-                    @Override
-                    public void subscribe(CompletableEmitter emitter) {
-                        getDatabase().getNotesDao().delete(noteToDelete);
-                        emitter.onComplete();
-                    }
+                .create(emitter -> {
+                    getDatabase().getNotesDao().delete(noteToDelete);
+                    emitter.onComplete();
                 })
                 .subscribeOn(Schedulers.io());
     }
 
     public Single<List<Note>> getNotes() {
-        return getDatabase().getNotesDao().getAllNotes()
+        return getDatabase()
+                .getNotesDao()
+                .getAllNotes()
                 .subscribeOn(Schedulers.io());
     }
 

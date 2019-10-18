@@ -1,4 +1,4 @@
-package com.example.aleksei.reminderapp.view;
+package com.example.aleksei.reminderapp.view.schedule;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -56,9 +56,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 
-        viewHolder.container.setOnClickListener(v -> {
-            callback.onItemClicked(listOfWeekDays.get(position).getDateOfDay());
-        });
+        viewHolder.container.setOnClickListener(v -> callback.onItemClicked(listOfWeekDays.get(position).getDateOfDay()));
 
         Date date = getListOfWeekDays().get(position).getDateOfDay();
 
@@ -67,7 +65,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         String dayOfMonth = DateWorker.getDayOfMonth(date);
 
         viewHolder.tvDayName.setText(dayName);
-        viewHolder.tvDayDate.setText(String.valueOf(dayOfMonth + " " + month));
+        String dayAndMonth = String.format(Locale.US, "%s %s", dayOfMonth, month);
+        viewHolder.tvDayDate.setText(dayAndMonth);
 
         viewHolder.tvNoteOne.setText("");
         viewHolder.tvNoteTwo.setText("");
@@ -99,12 +98,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout container;
-        TextView tvDayName;
-        TextView tvDayDate;
-        TextView tvNoteOne;
-        TextView tvNoteTwo;
-        TextView tvNoteThree;
+        private LinearLayout container;
+        private TextView tvDayName;
+        private TextView tvDayDate;
+        private TextView tvNoteOne;
+        private TextView tvNoteTwo;
+        private TextView tvNoteThree;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

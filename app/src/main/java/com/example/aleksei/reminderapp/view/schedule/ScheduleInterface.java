@@ -1,4 +1,4 @@
-package com.example.aleksei.reminderapp.view;
+package com.example.aleksei.reminderapp.view.schedule;
 
 import com.example.aleksei.reminderapp.utils.DayPojo;
 

@@ -1,4 +1,4 @@
-package com.example.aleksei.reminderapp.view;
+package com.example.aleksei.reminderapp.view.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.example.aleksei.reminderapp.R;
@@ -16,6 +15,8 @@ import com.example.aleksei.reminderapp.utils.DayPojo;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.SchedulePresenter;
 import com.example.aleksei.reminderapp.utils.DateWorker;
+import com.example.aleksei.reminderapp.view.add.AddNoteActivity;
+import com.example.aleksei.reminderapp.view.details.DetailedActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,9 +26,9 @@ import static android.graphics.drawable.ClipDrawable.HORIZONTAL;
 
 public class ScheduleActivity extends AppCompatActivity implements ScheduleInterface, ScheduleAdapter.ItemClickedCallback {
 
-    SchedulePresenter schedulePresenterInstance;
-    RecyclerView scheduleRecyclerView;
-    public ScheduleAdapter scheduleAdapter;
+    public static final String DAY_KEY = "chosenDay";
+    private SchedulePresenter schedulePresenterInstance;
+    private ScheduleAdapter scheduleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +44,15 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
             listOfWeekDays.add(new DayPojo(dateDayOfWeek, noteList));
         }
 
-        schedulePresenterInstance = new SchedulePresenter(this, DataStore.getInstance(this));
-        scheduleRecyclerView = findViewById(R.id.activity_schedule_rv);
+        RecyclerView scheduleRecyclerView = findViewById(R.id.activity_schedule_rv);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        scheduleAdapter = new ScheduleAdapter(this, listOfWeekDays);
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
         scheduleRecyclerView.addItemDecoration(itemDecor);
-        scheduleRecyclerView.setAdapter(scheduleAdapter);
+        scheduleAdapter = new ScheduleAdapter(this, listOfWeekDays);
         scheduleAdapter.registerForItemClickedCallback(this);
+        scheduleRecyclerView.setAdapter(scheduleAdapter);
+
+        schedulePresenterInstance = new SchedulePresenter(this, DataStore.getInstance(this));
     }
 
     @Override
@@ -79,8 +81,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
     @Override
     public void onItemClicked(Date dateOfClickedDay) {
         Intent intent = new Intent(this, DetailedActivity.class);
-        Log.i("timmyscheduledaypicked", dateOfClickedDay.toString());
-        intent.putExtra("chosenDay", dateOfClickedDay.toString());
+        intent.putExtra(DAY_KEY, dateOfClickedDay.toString());
         startActivity(intent);
     }
 }

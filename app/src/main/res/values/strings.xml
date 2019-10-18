@@ -6,4 +6,10 @@
     <string name="activity_newnote_btn_savenote">Сохранить</string>
     <string name="activity_detailed_btn_addnote">+</string>
     <string name="activity_schedule_btn_addnote">+</string>
+    <string name="detailed_activity_removenote_title">Удаление заметки</string>
+    <string name="detailed_activity_removenote_message">Вы уверены, что хотите удалить эту заметку?</string>
+    <string name="detailed_activity_removenote_posbtn">Удалить</string>
+    <string name="detailed_activity_removenote_negbtn">Отмена</string>
+    <string name="addnote_activity_toasterror_badtime">Нельзя установить прошедшее и текущее время</string>
+    <string name="addnote_activity_toasterror_nodata">Проверьте введена ли заметка и выставлена ли дата</string>
 </resources>
