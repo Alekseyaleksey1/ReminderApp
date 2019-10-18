@@ -36,15 +36,24 @@
     <TextView
         android:id="@+id/rv_item_noteone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:maxLength="30" />
 
     <TextView
         android:id="@+id/rv_item_notetwo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:maxLength="30" />
 
     <TextView
         android:id="@+id/rv_item_notethree"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:maxLength="30" />
 </LinearLayout>

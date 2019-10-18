@@ -13,15 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.aleksei.reminderapp.model.DataWorker;
+import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.DetailedPresenter;
+import com.example.aleksei.reminderapp.utils.DateWorker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -57,7 +56,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
 
        /* Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        DateConverter.getDayName(sdf);
+        DateWorker.getDayName(sdf);
         try {
             cal.setTime(sdf.parse(dateInString));// all done
             Log.i("timmy detailed dateInString", "success");
@@ -74,10 +73,10 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
             e.printStackTrace();
         }*/
         //Log.i("timmy detailed date", dateInString);
-       /* DateConverter.getDayName(dateToShow);
-        DateConverter.getDayOfMonth(dateToShow);
-        DateConverter.getMonth(dateToShow);*/
-        myToolbar.setTitle(DateConverter.getDayOfMonth(dateToShow) + " " + DateConverter.getMonth(dateToShow) + ", " + DateConverter.getDayName(dateToShow));
+       /* DateWorker.getDayName(dateToShow);
+        DateWorker.getDayOfMonth(dateToShow);
+        DateWorker.getMonth(dateToShow);*/
+        myToolbar.setTitle(DateWorker.getDayOfMonth(dateToShow) + " " + DateWorker.getMonth(dateToShow) + ", " + DateWorker.getDayName(dateToShow));
         //myToolbar.setTitle(dateInString);
 
         setSupportActionBar(myToolbar);
@@ -85,7 +84,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
         addNewNote = findViewById(R.id.activity_detailed_btn_addnote);
 
 
-        detailedPresenterInstance = new DetailedPresenter(this, this, dateToShow, DataWorker.getInstance(this));
+        detailedPresenterInstance = new DetailedPresenter(this, this, dateToShow, DataStore.getInstance(this));
 
         List<Note> listForNotes = new ArrayList<>();
         /*listForNotes.add(new Note(new Date(), "Сообщение1"));
@@ -130,7 +129,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         detailedPresenterInstance.onRemoveNote(noteToRemove);
-                        //detailedPresenterInstance.getNotesFromDatabase();
+                        detailedPresenterInstance.getNotesFromDatabase();
                     }
                 })
                 .setNegativeButton("Отмена",
@@ -169,13 +168,13 @@ public class DetailedActivity extends AppCompatActivity implements DetailedInter
             }
         }*/
 
-        Collections.sort(listToShow, new Comparator<Note>() {
+        /*Collections.sort(listToShow, new Comparator<Note>() {
             public int compare(Note o1, Note o2) {
                 if (o1.getNoteDate() == null || o2.getNoteDate() == null)
                     return 0;
                 return o1.getNoteDate().compareTo(o2.getNoteDate());
             }
-        });
+        });*/
 
 
         detailedAdapter.setAllNoteData(listToShow);

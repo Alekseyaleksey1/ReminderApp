@@ -2,32 +2,64 @@ package com.example.aleksei.reminderapp.presenter;
 
 import android.content.Context;
 
+import com.example.aleksei.reminderapp.DayModel;
 import com.example.aleksei.reminderapp.ScheduleInterface;
-import com.example.aleksei.reminderapp.model.DataWorker;
+import com.example.aleksei.reminderapp.model.DataStore;
+import com.example.aleksei.reminderapp.model.Note;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 public class SchedulePresenter {
 
     //private Context context;
     private CompositeDisposable disposable;//todo all disposables
-    private DataWorker dataWorker;
+    private DataStore dataStore;
     private ScheduleInterface scheduleInterfaceInstance;
 
 
-    public SchedulePresenter(Context context, ScheduleInterface scheduleInterfaceInstance, DataWorker dataWorker) {
+    public SchedulePresenter(Context context, ScheduleInterface scheduleInterfaceInstance, DataStore dataStore) {
         //this.context = context;
-        this.dataWorker = dataWorker;
+        this.dataStore = dataStore;
         this.scheduleInterfaceInstance = scheduleInterfaceInstance;
         disposable = new CompositeDisposable();
     }
 
+    public void onUIReady(){
+        getNotesFromDatabase();
+    }
 
+    private void getNotesFromDatabase() {
+        disposable.add(dataStore.getNotes()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Note>>() {
+                    @Override
+                    public void accept(List<Note> allNotes) {
+
+                        List<DayModel> listOfNotedWeekDays = dataStore.fetchDataToShow(allNotes);
+                        scheduleInterfaceInstance.setDataToList(listOfNotedWeekDays);
+
+                        /*Calendar currentCalendar = Calendar.getInstance();
+
+                        List<Note> notesToShow = dataStore.getNotesToDate(dateToShow, allNotes);
+                        scheduleInterfaceInstance.setDataToList(notesToShow);
+                        *//*DetailedAdapter.setAllNoteData(allNotes); БЫЛО
+                        DetailedActivity.detailedAdapter.notifyDataSetChanged();*//*
+                        Log.i("timmy", "gotNotesFromDB");
+                        //todo hide loading
+                        *//*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
+                        RepositoriesFragment.recyclerViewAdapter.notifyDataSetChanged();
+                        repoListInterfaceInstance.hideLoading();*/
+                    }
+                }));
+
+    }
     /*public void onUIReady() {
 
         //calculateTime();
@@ -109,7 +141,7 @@ public class SchedulePresenter {
     }*/
 
     /*private void getNotesFromDatabase() {
-        disposable.add(dataWorker.getNotes()
+        disposable.add(dataStore.getNotes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
@@ -123,7 +155,7 @@ public class SchedulePresenter {
                         scheduleInterfaceInstance.hideLoading();*//*
 
 
-                        *//*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
+     *//*RecyclerViewAdapter.setDataToAdapter((ArrayList<RepositoryModel>) repositoryModelList);
                         RepositoriesFragment.recyclerViewAdapter.notifyDataSetChanged();
                         repoListInterfaceInstance.hideLoading();*//*
                     }
@@ -132,7 +164,7 @@ public class SchedulePresenter {
     }*/
 
     /*private void addNote(Note noteToSave) {
-        disposable.add(dataWorker.saveNoteToDatabase(noteToSave)
+        disposable.add(dataStore.saveNoteToDatabase(noteToSave)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
@@ -143,7 +175,7 @@ public class SchedulePresenter {
     }*/
 
    /* private void removeNote(Note noteToDelete) {
-        disposable.add(dataWorker.removeNoteFromDatabase(noteToDelete)
+        disposable.add(dataStore.removeNoteFromDatabase(noteToDelete)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override

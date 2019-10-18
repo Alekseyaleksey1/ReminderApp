@@ -15,7 +15,7 @@ public interface NoteDao {
     @Insert
     void insert(Note entity);
 
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM Note ORDER BY noteDate")
     Single<List<Note>> getAllNotes();
 
     @Delete

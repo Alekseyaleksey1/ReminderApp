@@ -10,9 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.example.aleksei.reminderapp.model.DataWorker;
+import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.SchedulePresenter;
+import com.example.aleksei.reminderapp.utils.DateWorker;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,25 +79,28 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         }*/
 
 
-       /*ADD List<DayModel> listOfWeekDays = new ArrayList<>();
-        List<Date> dateOfWeekDays = getWeekDates();
+        List<DayModel> listOfWeekDays = new ArrayList<>();
+        List<Date> dateOfWeekDays = DateWorker.getWeekDates();
 
         for (Date dateDayOfWeek : dateOfWeekDays) {
             List<Note> noteList = new ArrayList<>();
 
             listOfWeekDays.add(new DayModel(dateDayOfWeek, noteList));
-        }*/
+        }
 
 
         //listOfWeekDays.add(new DayModel());
         List<Note> list = new ArrayList<>();
         //list.add(new Note());
-        schedulePresenterInstance = new SchedulePresenter(this, this, DataWorker.getInstance(this));
-        List<Date> weekDates = schedulePresenterInstance.getWeekDates();
+        schedulePresenterInstance = new SchedulePresenter(this, this, DataStore.getInstance(this));
+
+        //22 List<Date> weekDates = schedulePresenterInstance.getWeekDates();//todo запуск move to onResume
+        //222 List<Date> weekDates = DateWorker.getWeekDates();//todo запуск move to onResume
+
         scheduleRecyclerView = findViewById(R.id.activity_schedule_rv);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        scheduleAdapter = new ScheduleAdapter(this, weekDates, list);
-        //ADD scheduleAdapter = new ScheduleAdapter(this, listOfWeekDays);
+        //22 scheduleAdapter = new ScheduleAdapter(this, weekDates, list);
+        scheduleAdapter = new ScheduleAdapter(this, listOfWeekDays);
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
         scheduleRecyclerView.addItemDecoration(itemDecor);
 
@@ -111,6 +115,19 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
         //schedulePresenterInstance.getDataToShow();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        schedulePresenterInstance.onUIReady();
+    }
+
+    @Override
+    public void setDataToList(List<DayModel> listToShow) {
+        /*222scheduleAdapter.setAllNoteData(listToShow);*/
+        scheduleAdapter.setListOfWeekDays(listToShow);
+        scheduleAdapter.notifyDataSetChanged();
+    }
     /*List<Date> getWeekDates() {
         List<Date> dateOfWeekDays = new ArrayList<>();
         for (int i = 0; i <= 6; i++) {
@@ -152,6 +169,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleInter
     public void hideLoading() {
 
     }
+
+
 
     /*@Override
     public void setDataToShow(List<DayModel> listOfNotedWeekDays) {

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.aleksei.reminderapp.model.DataWorker;
+import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 import com.example.aleksei.reminderapp.presenter.AddNotePresenter;
 
@@ -45,7 +45,7 @@ public class AddNoteActivity extends AppCompatActivity {
         edNoteText = findViewById(R.id.activity_newnote_et_notetext);
         tvDateAndTime = findViewById(R.id.activity_newnote_tv_dateandtime);
 
-        addNotePresenterInstance = new AddNotePresenter(this, DataWorker.getInstance(this));
+        addNotePresenterInstance = new AddNotePresenter(this, DataStore.getInstance(this));
        /* edNoteText.addTextChangedListener(new TextWatcher() {//todo перенос на след строку + 2 строки максимум
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -130,7 +130,7 @@ public class AddNoteActivity extends AppCompatActivity {
         } else {
             //todo insert into db
             //Log.i("timmy", dateToAdd.toString());//Wed Oct 16 15:36:50 GMT+00:00
-            //addNotePresenterInstance = new AddNotePresenter(this, DataWorker.getInstance(this));
+            //addNotePresenterInstance = new AddNotePresenter(this, DataStore.getInstance(this));
             addNotePresenterInstance.onAddNote(new Note(dateToAdd, edNoteText.getText().toString()));
             finish();
         }

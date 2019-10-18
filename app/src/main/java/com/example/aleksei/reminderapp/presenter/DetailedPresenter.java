@@ -1,14 +1,12 @@
 package com.example.aleksei.reminderapp.presenter;
 
-import android.app.AlarmManager;
 import android.content.Context;
 import android.util.Log;
 
 import com.example.aleksei.reminderapp.DetailedInterface;
-import com.example.aleksei.reminderapp.model.DataWorker;
+import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,13 +20,13 @@ public class DetailedPresenter {
 
     //private Context context;
     private CompositeDisposable disposable;//todo один disposable для всех
-    private DataWorker dataWorker;
+    private DataStore dataStore;
     DetailedInterface detailedInterfaceInstance;
     Date dateToShow;
 
-    public DetailedPresenter(Context context, DetailedInterface detailedInterfaceInstance, Date dateToShow, DataWorker dataWorker) {
+    public DetailedPresenter(Context context, DetailedInterface detailedInterfaceInstance, Date dateToShow, DataStore dataStore) {
         //this.context = context;
-        this.dataWorker = dataWorker;
+        this.dataStore = dataStore;
         disposable = new CompositeDisposable();
         this.detailedInterfaceInstance = detailedInterfaceInstance;
         this.dateToShow = dateToShow;
@@ -38,8 +36,8 @@ public class DetailedPresenter {
         getNotesFromDatabase();
     }
 
-    private void getNotesFromDatabase() {
-        disposable.add(dataWorker.getNotes()
+    public void getNotesFromDatabase() {
+        disposable.add(dataStore.getNotes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
@@ -51,7 +49,7 @@ public class DetailedPresenter {
                         currentCalendar.get(Calendar.DAY_OF_MONTH);*/
 
 
-                        List<Note> actualNotes = new ArrayList<>();
+                       /* List<Note> actualNotes = new ArrayList<>();//todo удаление записей за прошлые даты уже работает но рекурсия
                         for (Note note : allNotes) {
 
                             Calendar notesCalendar = Calendar.getInstance();
@@ -62,12 +60,12 @@ public class DetailedPresenter {
                             } else {
                                 removeNote(note);
                             }
-                        }
+                        }*/
 
                         //TODO удалять записи на прошлые даты РЕКУРСИЯ разобраться
 
-                        //List<Note> notesToShow = dataWorker.getNotesToDate(dateToShow, allNotes);
-                        List<Note> notesToShow = dataWorker.getNotesToDate(dateToShow, actualNotes);
+                        //БЫЛО List<Note> notesToShow = dataStore.getNotesToDate(dateToShow, allNotes);
+                        List<Note> notesToShow = dataStore.getNotesToDate(dateToShow, allNotes);
                         detailedInterfaceInstance.setDataToList(notesToShow);
                         /*DetailedAdapter.setAllNoteData(allNotes); БЫЛО
                         DetailedActivity.detailedAdapter.notifyDataSetChanged();*/
@@ -81,8 +79,13 @@ public class DetailedPresenter {
 
     }
 
+    /*void setNotesToShow(){
+        *//*List<Note> notesToShow = dataStore.getNotesToDate(dateToShow, actualNotes);
+        detailedInterfaceInstance.setDataToList(notesToShow);*//*
+    }//*/
+
     /*public void addNote(Note noteToSave) {
-        disposable.add(dataWorker.saveNoteToDatabase(noteToSave)
+        disposable.add(dataStore.saveNoteToDatabase(noteToSave)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
@@ -94,13 +97,13 @@ public class DetailedPresenter {
 
 
     private void removeNote(Note noteToDelete) {
-        disposable.add(dataWorker.removeNoteFromDatabase(noteToDelete)
+        disposable.add(dataStore.removeNoteFromDatabase(noteToDelete)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() {
                         Log.i("timmy", "заметка удалена");
-                        getNotesFromDatabase();
+                        getNotesFromDatabase();//todo начало рекурсии
                     }
                 }));
 

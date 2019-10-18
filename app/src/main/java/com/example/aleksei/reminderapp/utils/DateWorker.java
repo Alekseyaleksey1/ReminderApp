@@ -1,10 +1,25 @@
-package com.example.aleksei.reminderapp;
+package com.example.aleksei.reminderapp.utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class DateConverter {//todo move to MODEL
+public class DateWorker {
 
+    public static List<Date> getWeekDates() {
+        List<Date> dateOfWeekDays = new ArrayList<>();
+        for (int i = 0; i <= 6; i++) {
+            Calendar calendar = Calendar.getInstance();
+            Date currentDate = calendar.getTime();
+            calendar.setTime(currentDate);
+            int numberOfDay = calendar.get(Calendar.DATE);
+            calendar.set(Calendar.DATE, numberOfDay + i);
+            Date tempDate = calendar.getTime();
+            dateOfWeekDays.add(tempDate);
+        }
+        return dateOfWeekDays;
+    }
 
     public static String getMinute(Date date){
         Calendar calendar = Calendar.getInstance();

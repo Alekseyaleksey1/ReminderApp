@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.aleksei.reminderapp.model.Note;
+import com.example.aleksei.reminderapp.utils.DateWorker;
 
 import java.util.Date;
 import java.util.List;
@@ -61,11 +62,11 @@ public class DetailedAdapter extends RecyclerView.Adapter<DetailedAdapter.ViewHo
         Note note = allNoteData.get(i);
         String noteText = note.getNoteText();
         Date date = note.getNoteDate();
-        /*DateConverter.getHour(date);
-        DateConverter.getMinute(date);*/
+        /*DateWorker.getHour(date);
+        DateWorker.getMinute(date);*/
 
         //String.format(Locale.US, "%02d:%02d", hourOfDay, minute);
-        String timeToShow = String.format(Locale.US, "%02d:%02d", Integer.valueOf(DateConverter.getHour(date)), Integer.valueOf(DateConverter.getMinute(date)));
+        String timeToShow = String.format(Locale.US, "%02d:%02d", Integer.valueOf(DateWorker.getHour(date)), Integer.valueOf(DateWorker.getMinute(date)));
         viewHolder.tvNoteTime.setText(timeToShow);
         viewHolder.tvNoteText.setText(noteText);
         //todo
