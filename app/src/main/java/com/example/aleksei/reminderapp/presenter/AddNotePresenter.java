@@ -2,6 +2,7 @@ package com.example.aleksei.reminderapp.presenter;
 
 import com.example.aleksei.reminderapp.model.DataStore;
 import com.example.aleksei.reminderapp.model.Note;
+import com.example.aleksei.reminderapp.view.AddNoteInterface;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -9,18 +10,26 @@ import io.reactivex.functions.Action;
 
 public class AddNotePresenter {
 
-    private CompositeDisposable disposable;
+    private AddNoteInterface addNoteInterfaceInstance;
     private DataStore dataStore;
+    private CompositeDisposable disposable;
 
-    public AddNotePresenter(DataStore dataStore) {
+
+    public AddNotePresenter(AddNoteInterface addNoteInterfaceInstance, DataStore dataStore) {
         disposable = new CompositeDisposable();
+        this.addNoteInterfaceInstance = addNoteInterfaceInstance;
         this.dataStore = dataStore;
     }
 
     private void addNote(Note noteToSave) {
         disposable.add(dataStore.saveNoteToDatabase(noteToSave)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe());
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                       addNoteInterfaceInstance.finishTheView();
+                    }
+                }));
     }
 
     public void onAddNote(Note noteToSave) {

@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddNoteActivity extends AppCompatActivity {
+public class AddNoteActivity extends AppCompatActivity implements AddNoteInterface {
 
     AddNotePresenter addNotePresenterInstance;
     EditText edNoteText;
@@ -46,7 +46,7 @@ public class AddNoteActivity extends AppCompatActivity {
         edNoteText = findViewById(R.id.activity_newnote_et_notetext);
         tvDateAndTime = findViewById(R.id.activity_newnote_tv_dateandtime);
 
-        addNotePresenterInstance = new AddNotePresenter(DataStore.getInstance(this));
+        addNotePresenterInstance = new AddNotePresenter(this, DataStore.getInstance(this));
     }
 
     @Override
@@ -123,7 +123,12 @@ public class AddNoteActivity extends AppCompatActivity {
             //Log.i("timmy", dateToAdd.toString());//Wed Oct 16 15:36:50 GMT+00:00
             //addNotePresenterInstance = new AddNotePresenter(this, DataStore.getInstance(this));
             addNotePresenterInstance.onAddNote(new Note(dateToAdd, edNoteText.getText().toString()));
-            finish();
+            //finish();
         }
+    }
+
+    @Override
+    public void finishTheView() {
+        finish();
     }
 }
