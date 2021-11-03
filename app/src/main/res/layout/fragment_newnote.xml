@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragment_newnote_tb"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <EditText
+        android:id="@+id/fragment_newnote_et_notetext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="true"
+        android:hint="@string/fragment_addnote_et_notetext_hint"
+        android:inputType="textMultiLine|textCapSentences"
+        android:lines="2"
+        android:maxLength="100"
+        android:maxLines="2"
+        android:minLines="2"
+        android:textSize="18sp"
+        android:autofillHints="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:onClick="setDateAndTime"//todo
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/fragment_newnote_tv_hintdateandtime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center|start"
+            android:text="@string/fragment_addnote_tv_hintdateandtime"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/fragment_newnote_tv_dateandtime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/editTextBackground"
+            android:gravity="center"
+            android:hint="@string/fragment_addnote_tv_dateandtime"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/fragment_newnote_btn_savenote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="saveNewNote"
+        android:text="@string/activity_newnote_btn_savenote" />
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/fragment_newnote_et_notetext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="text"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="true"
+        android:hint="@string/fragment_addnote_et_notetexthint"
+        android:inputType="textMultiLine|textCapSentences"
+        android:lines="2"
+        android:maxLength="100"
+        android:maxLines="2"
+        android:minLines="1"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fragment_newnote_tv_datehint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/editTextBackground"
+        android:text="@string/fragment_addnote_tv_datehint"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/fragment_newnote_tv_date"
+        app:layout_constraintTop_toBottomOf="@id/fragment_newnote_et_notetext" />
+
+    <TextView
+        android:id="@+id/fragment_newnote_tv_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="date"
+        android:background="?attr/editTextBackground"
+        android:hint="@string/fragment_addnote_tv_dateandtime"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/fragment_newnote_tv_datehint"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/fragment_newnote_et_notetext" />
+
+    <TextView
+        android:id="@+id/fragment_newnote_tv_timehint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/editTextBackground"
+        android:text="@string/fragment_addnote_tv_timehint"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/fragment_newnote_tv_time"
+        app:layout_constraintTop_toBottomOf="@id/fragment_newnote_tv_datehint" />
+
+    <TextView
+        android:id="@+id/fragment_newnote_tv_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="time"
+        android:background="?attr/editTextBackground"
+        android:hint="@string/fragment_addnote_tv_dateandtime"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/fragment_newnote_tv_timehint"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/fragment_newnote_tv_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
