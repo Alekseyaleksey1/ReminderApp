@@ -6,17 +6,20 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_schedule_tb"
-        android:layout_width="409dp"
+        android:id="@+id/activity_host_tb"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:title="ReminderApp" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/activity_schedule_fcv"
-        android:name="com.reminderapp.ui.fragment.NoteListFragment"
+        android:id="@+id/activity_host_navfragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
 </LinearLayout>

@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_detailed_ll"
+    android:id="@+id/fragment_detailed_item_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="10dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/activity_detailed_tv_notetime"
+        android:id="@+id/fragment_detailed_tv_notetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorDarkSlateGray"
-        android:textSize="24sp" />
+        android:textColor="@color/colorDarkSlateGray"/>
 
     <TextView
-        android:id="@+id/activity_detailed_tv_notetext"
+        android:id="@+id/fragment_detailed_tv_notetext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:lines="2"
         android:maxLines="2"
         android:minLines="2"
-        android:textColor="@color/colorDarkSlateGray"
-        android:textSize="18sp" />
+        android:textColor="@color/colorDarkSlateGray" />
 </LinearLayout>

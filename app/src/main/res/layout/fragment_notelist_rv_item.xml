@@ -1,59 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_schedule_ll"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_notelist_item_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/fragment_notelist_rv_item_dayname"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/rv_item_dayname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_weight="1"
-            android:textColor="@color/colorDarkSlateGray"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/rv_item_daydate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:gravity="end"
-            android:textColor="@color/colorDarkSlateGray"
-            android:textSize="24sp" />
-    </LinearLayout>
+        android:layout_weight="1"
+        android:textColor="@color/colorDarkSlateGray"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_notelist_rv_item_noteone"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_notelist_rv_item_daydate"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/rv_item_noteone"
-        android:layout_width="match_parent"
+        android:id="@+id/fragment_notelist_rv_item_daydate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="10dp"
-        android:maxLength="30" />
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textAlignment="gravity"
+        android:textColor="@color/colorDarkSlateGray"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_notelist_rv_item_noteone"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toEndOf="@+id/fragment_notelist_rv_item_dayname"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/rv_item_notetwo"
+        android:id="@+id/fragment_notelist_rv_item_noteone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="10dp"
-        android:maxLength="30" />
+        android:maxLength="30"
+        app:layout_constraintBottom_toTopOf="@id/fragment_notelist_rv_item_notetwo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_notelist_rv_item_dayname" />
 
     <TextView
-        android:id="@+id/rv_item_notethree"
+        android:id="@+id/fragment_notelist_rv_item_notetwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="10dp"
-        android:maxLength="30" />
-</LinearLayout>
+        android:maxLength="30"
+        app:layout_constraintBottom_toTopOf="@id/fragment_notelist_rv_item_notethree"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_notelist_rv_item_noteone" />
+
+    <TextView
+        android:id="@+id/fragment_notelist_rv_item_notethree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_notelist_rv_item_notetwo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

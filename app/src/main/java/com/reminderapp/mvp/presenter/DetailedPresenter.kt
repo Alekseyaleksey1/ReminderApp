@@ -1,34 +1,55 @@
-package com.aleksei.reminderapp.mvp.presenter
+package com.reminderapp.mvp.presenter
 
-import com.aleksei.reminderapp.mvp.view.details.DetailedInterface
-import com.aleksei.reminderapp.mvp.data.DataStore
-import com.aleksei.reminderapp.mvp.data.Note
-import java.util.Date
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import com.google.gson.GsonBuilder
+import com.reminderapp.MainApplication
+import com.reminderapp.mvp.contract.DetailedContract
+import com.reminderapp.mvp.data.NoteRepository
+import com.reminderapp.mvp.data.entity.Note
+import com.reminderapp.receiver.AlarmNotificationReceiver
+import com.reminderapp.util.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class DetailedPresenter(private val detailedInterfaceInstance: DetailedInterface, private val dateUpToShow: Date, private val dataStore: DataStore) {
+class DetailedPresenter(private val repository: NoteRepository, router: DetailedContract.Router) :
+    DetailedContract.Presenter,
+    BasePresenter<DetailedContract.View, DetailedContract.Router>(router) {
 
-    private val disposable: CompositeDisposable = CompositeDisposable()
+    override fun onDeleteNoteFromDatabase(noteToDelete: Note) {
+        view?.showProgress()
+        CoroutineScope(Default).launch {
+            repository.deleteNoteFromDatabase(noteToDelete)
+            withContext(Main) {
+                onRemoveNoteAlarm(noteToDelete)
+                view?.removeNoteFromUi(noteToDelete)
+                view?.hideProgress()
+            }
+        }
+    }
 
-    fun onUIReady() = getNotesFromDatabase()
-
-    fun getNotesFromDatabase() =
-            disposable.add(dataStore.notes
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { allNotes ->
-                        val notesToShow: List<Note> = dataStore.getNotesToDate(dateUpToShow, allNotes);
-                        detailedInterfaceInstance.setDataToList(notesToShow)
-                    })
-
-
-    private fun removeNote(noteToDelete: Note) =// TODO tyt два одинаковых метода
-            disposable.add(dataStore.removeNoteFromDatabase(noteToDelete)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::getNotesFromDatabase));
-
-
-    fun onRemoveNote(noteToDelete: Note) = removeNote(noteToDelete)
-
-    fun disposeDisposables() = disposable.dispose()
+    override fun onRemoveNoteAlarm(noteToDelete: Note) {
+        val alarmManager: AlarmManager =
+            MainApplication.applicationContext()
+                .getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(
+            PendingIntent.getBroadcast(
+                MainApplication.applicationContext(),
+                noteToDelete.id,
+                Intent(
+                    MainApplication.applicationContext(),
+                    AlarmNotificationReceiver::class.java
+                ).apply {
+                    action = Constants.ACTION_SHOW_NOTIFICATION
+                    putExtra(Constants.NOTE_KEY, GsonBuilder().create().toJson(noteToDelete))
+                },
+                0
+            )
+        )
+    }
 }

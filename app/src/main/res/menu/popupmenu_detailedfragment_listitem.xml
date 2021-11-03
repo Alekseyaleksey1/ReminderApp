@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_detailedfragment_listitem_delete"
+        android:id="@+id/popupmenu_detailedfragment_listitem_delete_item"
         android:title="@string/menu_detailedfragment_listitempopup_delete_title" />
     <item
-        android:id="@+id/menu_detailedfragment_listitem_edit"
+        android:id="@+id/popupmenu_detailedfragment_listitem_edit_item"
         android:title="@string/menu_detailedfragment_listitempopup_edit_title" />
 </menu>

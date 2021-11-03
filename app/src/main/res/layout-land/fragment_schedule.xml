@@ -4,16 +4,16 @@
     android:layout_height="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_schedule_fvc_list"
+        android:id="@+id/fragment_schedule_fcv_list"
         android:name="com.reminderapp.ui.fragment.NoteListFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1.25" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_schedule_fvc_details"
+        android:id="@+id/fragment_schedule_fcv_details"
         android:name="com.reminderapp.ui.fragment.DetailedFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.3" />
+        android:layout_weight="1" />
 </LinearLayout>

@@ -1,19 +1,19 @@
-package com.aleksei.reminderapp.mvp.data
+package com.reminderapp.mvp.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import io.reactivex.Single
+import androidx.room.*
+import com.reminderapp.mvp.data.entity.Note
 
 @Dao
 interface NoteDao {
     @Query("SELECT * FROM Note ORDER BY noteDate")
-    fun allNotes(): Single<List<Note>>
+   suspend fun allNotes(): List<Note>
 
     @Insert
-    fun insert(entity: Note)
+   suspend fun insert(noteToInsert: Note): Long
 
     @Delete
-    fun delete(note: Note)
+    suspend fun delete(noteToDelete: Note)
+
+    @Update
+    suspend fun update(noteToUpdate: Note)
 }

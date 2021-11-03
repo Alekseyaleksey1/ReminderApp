@@ -1,4 +1,4 @@
-package com.reminderapp.util
+package com.reminderapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

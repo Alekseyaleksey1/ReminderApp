@@ -1,84 +1,76 @@
 package com.reminderapp.ui.fragment
 
-import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.drawable.ClipDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.reminderapp.Application
 import com.reminderapp.R
-import com.reminderapp.mvp.contract.ScheduleContract
-import com.reminderapp.mvp.data.DateWorker
+import com.reminderapp.mvp.contract.HostContract
+import com.reminderapp.mvp.contract.NoteListContract
 import com.reminderapp.mvp.data.NoteRepository
 import com.reminderapp.mvp.data.entity.Day
-import com.reminderapp.mvp.data.entity.Note
-import com.reminderapp.mvp.presenter.SchedulePresenter
-import com.reminderapp.ui.activity.AddNoteActivity
-import com.reminderapp.ui.activity.DAY_KEY
-import com.reminderapp.ui.activity.DetailedActivity
-import com.reminderapp.ui.activity.ScheduleAdapter
-import com.reminderapp.ui.navigation.NotesRouter
-import java.util.*
+import com.reminderapp.mvp.presenter.NoteListPresenter
+import com.reminderapp.ui.navigation.NoteListRouter
+import com.reminderapp.ui.observer.NoteListLifecycleObserver
+import com.reminderapp.ui.viewmodel.UpdateViewModel
 
-class NotesListFragment() :
-    BaseFragment<ScheduleContract.View, ScheduleContract.Presenter, ScheduleContract.Router>(),
-    ScheduleContract.View, ScheduleAdapter.ItemClickedCallback  {
+class NoteListFragment :
+    BaseFragment<NoteListContract.View, NoteListContract.Presenter>(),
+    NoteListContract.View, NoteListAdapter.ItemClickedCallback {
 
-    override val presenter: SchedulePresenter =
-        SchedulePresenter(NotesRouter(), NoteRepository())
-    private var scheduleAdapter: ScheduleAdapter? = null
+    override lateinit var presenter: NoteListPresenter
+    private lateinit var scheduleAdapter: NoteListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_schedule, container, false)
+        val view = inflater.inflate(R.layout.fragment_notelist, container, false)
+        val scheduleRecyclerView: RecyclerView = view.findViewById(R.id.fragment_notelist_rv)
+        scheduleAdapter =
+            NoteListAdapter(listOf()).also {
+                it.registerForItemClickedCallback(this)
+            }
 
-        val myToolbar: Toolbar = view.findViewById(R.id.activity_schedule_tb)
-        (activity as AppCompatActivity).setSupportActionBar(myToolbar)//todo так можно?
-
-        val listOfWeekDays = ArrayList<Day>()
-        val dateOfWeekDays = DateWorker.getWeekDates()
-        for (dateDayOfWeek in dateOfWeekDays) {
-            listOfWeekDays.add(Day(dateDayOfWeek, ArrayList<Note>()))
+        scheduleRecyclerView.let {
+            it.layoutManager = LinearLayoutManager(requireContext())
+            it.addItemDecoration(DividerItemDecoration(requireContext(), ClipDrawable.HORIZONTAL))
+            it.adapter = scheduleAdapter
         }
+        presenter = NoteListPresenter(NoteRepository(), NoteListRouter(findNavController()))
 
-        val scheduleRecyclerView: RecyclerView = view.findViewById(R.id.activity_schedule_rv)
-        scheduleRecyclerView.layoutManager = LinearLayoutManager(activity)//todo так можно?
-        val itemDecor =  DividerItemDecoration(activity, ClipDrawable.HORIZONTAL)//todo так можно?
-        scheduleRecyclerView.addItemDecoration(itemDecor)
-        scheduleAdapter = ScheduleAdapter(Application.applicationContext(), listOfWeekDays)////todo так можно?
-        scheduleAdapter!!.registerForItemClickedCallback(this)
-        scheduleRecyclerView.adapter = scheduleAdapter
-
-        val btnAddNewNote = view.findViewById<Button>(R.id.activity_schedule_btn_addnote)
-        btnAddNewNote.setOnClickListener{clickAddNewNote()}
+        viewLifecycleOwner.lifecycle.addObserver(
+            NoteListLifecycleObserver(presenter)
+        )
+        ViewModelProvider(requireActivity())
+            .get(UpdateViewModel::class.java)
+            .listOfNotedWeekDays.observe(viewLifecycleOwner) {
+                scheduleAdapter.listOfWeekDays = it
+                scheduleAdapter.notifyDataSetChanged()
+            }
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onUIReady()//todo отвязать от активити это действие в презентере
+    override fun updateNotesOnUi(listOfNotedWeekDays: List<Day>) {
+        ViewModelProvider(requireActivity())
+            .get(UpdateViewModel::class.java)
+            .updateListOfNotedWeekDays(listOfNotedWeekDays)
     }
 
-    override fun setDataToList(listToShow: List<Day>) {
-        scheduleAdapter!!.setListOfWeekDays(listToShow)//todo много нулов
-        scheduleAdapter!!.notifyDataSetChanged()
+    override fun onItemClicked(position: Int) {
+        ViewModelProvider(requireActivity())
+            .get(UpdateViewModel::class.java)
+            .updatePositionToShowDetailed(position)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            (activity as HostContract.View).clickNoteDetailed()
+        }
     }
-
-    override fun clickAddNewNote()
-        = startActivity(Intent(this, AddNoteActivity::class.java))//todo ubrat' v presenter a tam v router
-
-
-    override fun onItemClicked(dateOfClickedDay: Date)  =//todo пойти в активити и сказать запустить  в другом фрагменте детальную инфу по дате
-        startActivity(Intent(this, DetailedActivity::class.java)
-            .also { it.putExtra(DAY_KEY, dateOfClickedDay.toString()) })
 }

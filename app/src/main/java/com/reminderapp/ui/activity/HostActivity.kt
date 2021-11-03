@@ -3,90 +3,63 @@ package com.reminderapp.ui.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
-import java.util.Date
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.reminderapp.R
-import com.reminderapp.mvp.contract.ScheduleContract
-import com.reminderapp.mvp.data.NoteRepository
-import com.reminderapp.mvp.presenter.SchedulePresenter
-import com.reminderapp.ui.navigation.ScheduleRouter
+import com.reminderapp.extensions.observeOnce
+import com.reminderapp.mvp.contract.HostContract
+import com.reminderapp.mvp.data.entity.Note
+import com.reminderapp.mvp.presenter.HostPresenter
+import com.reminderapp.ui.navigation.HostRouter
+import com.reminderapp.ui.viewmodel.UpdateViewModel
+import com.reminderapp.util.Constants
 
-const val DAY_KEY = "chosenDay"
+class HostActivity :
+    BaseActivity<HostContract.View, HostContract.Presenter>(),
+    HostContract.View {
 
-class ScheduleActivity :
-    BaseActivity<ScheduleContract.View, ScheduleContract.Presenter, ScheduleContract.Router>(),
-    ScheduleContract.View/*, NoteListAdapter.ItemClickedCallback*/ {
-
-    override val presenter: SchedulePresenter =
-        SchedulePresenter(ScheduleRouter(), NoteRepository())
-    //private var scheduleAdapter: ScheduleAdapter? = null
+    override lateinit var presenter: HostPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schedule)
-        val myToolbar: Toolbar = findViewById(R.id.activity_schedule_tb)
-        setSupportActionBar(myToolbar)
+        setContentView(R.layout.activity_host)
+        setSupportActionBar(findViewById(R.id.activity_host_tb))
 
-        //  val listOfWeekDays = ArrayList<Day>()
-        //   val dateOfWeekDays = DateWorker.getWeekDates()
-        //  for (dateDayOfWeek in dateOfWeekDays) {
-        //      listOfWeekDays.add(Day(dateDayOfWeek, ArrayList<Note>()))
-        //   }
+        presenter = HostPresenter(
+            HostRouter((supportFragmentManager.findFragmentById(R.id.activity_host_navfragment) as NavHostFragment).navController)
+        )
 
-        // val scheduleRecyclerView: RecyclerView = findViewById(R.id.activity_schedule_rv)
-        //scheduleRecyclerView.layoutManager = LinearLayoutManager(this)
-        // val itemDecor =  DividerItemDecoration(this, HORIZONTAL)
-        // scheduleRecyclerView.addItemDecoration(itemDecor)
-        // scheduleAdapter = ScheduleAdapter(this, listOfWeekDays)
-        //  scheduleAdapter!!.registerForItemClickedCallback(this)
-        //  scheduleRecyclerView.adapter = scheduleAdapter
-
-        // val btnAddNewNote = findViewById<Button>(R.id.fragment_schedule_btn_addnote)
-        // btnAddNewNote.setOnClickListener{clickAddNewNote()}
+        if (intent.getBooleanExtra(Constants.STARTED_FROM_RECEIVER_FLAG, false)
+        ) {
+            ViewModelProvider(this).get(UpdateViewModel::class.java).listOfNotedWeekDays.observeOnce(
+                this,
+                { presenter.onClickDetailedNote() })
+        }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_scheduleactivity, menu)
+        menuInflater.inflate(R.menu.menu_hostactivity, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_addnewnote -> {
-                presenter.onClickAddNewNote()
+                clickAddNewNote()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    /*override fun onResume() {
-        super.onResume()
-        presenter.onUIReady()//todo отвязать от активити это действие в презентере
-    }*/
-
-    override fun showDetailedInfo(date: Date) {
-        presenter.onShowDetailedInfo(date)
+    override fun clickAddNewNote() {
+        presenter.onClickAddNewNote()
     }
 
+    override fun clickEditNote(noteToEdit: Note) {
+        presenter.onClickEditNote(noteToEdit)
+    }
 
-    /*override fun setDataToList(listToShow: List<Day>) {
-        scheduleAdapter!!.setListOfWeekDays(listToShow)//todo много нулов
-        scheduleAdapter!!.notifyDataSetChanged()
-    }*/
-
-   /* override fun clickAddNewNote(*//*view: View*//*) = startActivity(
-        Intent(
-            this,
-            AddNoteActivity::class.java
-        )
-    )//todo ubrat' v presenter a tam v router*/
-
-   /* override fun onItemClicked(dateOfClickedDay: Date) {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.activity_schedule_cv1, DetailedFragment(), "DETAILED_FRAGMENT")//todo должен делать роутер?
-    }*/
-    /*
-        startActivity(Intent(this, DetailedActivity::class.java)
-            .also { it.putExtra(DAY_KEY, dateOfClickedDay.toString()) })*/
+    override fun clickNoteDetailed() {
+        presenter.onClickDetailedNote()
+    }
 }

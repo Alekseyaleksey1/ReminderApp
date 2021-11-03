@@ -1,4 +1,19 @@
 package com.reminderapp.mvp.contract
 
-class BaseContract {
+interface BaseContract {
+
+    interface View {
+        fun showProgress()
+        fun hideProgress()
+    }
+
+    interface Presenter<T : View> {
+        fun onAttachView(view: T)
+        fun onDetachView()
+        fun onBackPressed()
+    }
+
+    interface Router {
+        fun back()
+    }
 }

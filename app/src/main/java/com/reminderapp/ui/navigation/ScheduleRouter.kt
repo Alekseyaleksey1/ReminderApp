@@ -1,8 +1,7 @@
 package com.reminderapp.ui.navigation
 
-import com.reminderapp.mvp.contract.AddNoteContract
+import androidx.navigation.NavController
 import com.reminderapp.mvp.contract.ScheduleContract
 
-class NotesRouter: BaseRouter(), AddNoteContract.Router {
-
-}
+class ScheduleRouter(navController: NavController) : BaseRouter(navController),
+    ScheduleContract.Router

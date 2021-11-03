@@ -1,4 +1,5 @@
 package com.reminderapp.mvp.presenter
 
-class RepositoryPresenter {
+interface RepositoryPresenter {
+   fun onUIReady()
 }

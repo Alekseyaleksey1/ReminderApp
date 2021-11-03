@@ -1,15 +1,57 @@
 <resources>
-    <string name="app_name">ReminderApp</string>
-    <string name="activity_newnote_et_notetext_hint">Введите текст заметки</string>
-    <string name="activity_newnote_tv_hintdateandtime">На дату:</string>
-    <string name="activity_newnote_tv_dateandtime">+</string>
-    <string name="activity_newnote_btn_savenote">Сохранить</string>
-    <string name="activity_detailed_btn_addnote">+</string>
-    <string name="activity_schedule_btn_addnote">+</string>
-    <string name="detailed_activity_removenote_title">Удаление заметки</string>
-    <string name="detailed_activity_removenote_message">Вы уверены, что хотите удалить эту заметку?</string>
-    <string name="detailed_activity_removenote_posbtn">Удалить</string>
-    <string name="detailed_activity_removenote_negbtn">Отмена</string>
-    <string name="addnote_activity_toasterror_badtime">Нельзя установить прошедшее и текущее время</string>
-    <string name="addnote_activity_toasterror_nodata">Проверьте введена ли заметка и выставлена ли дата</string>
+    <string name="app_name">Reminder</string>
+
+    <string name="error_db_access">Произошла ошибка при доступе к базе данных</string>
+    <string name="error_unknown">Произошла неизвестная ошибка</string>
+    <string name="error_invaliddata">Проверьте введена ли заметка и выставлена ли дата</string>
+
+    <string name="fragment_newnote_et_notetexthint">Название</string>
+    <string name="fragment_newnote_tv_notedatehint">На дату:</string>
+    <string name="fragment_newnote_tv_notetimehint">На время:</string>
+    <string name="fragment_newnote_tv_setdateandtimehint">Установить</string>
+    <string name="fragment_newnote_title">Новая заметка</string>
+    <string name="fragment_newnote_menu_btn_save">Сохранить</string>
+    <string name="fragment_newnote_menu_btn_cancel">Отмена</string>
+
+    <string name="fragment_detailed_title">Удаление заметки</string>
+    <string name="fragment_detailed_message">Вы уверены, что хотите удалить эту заметку?</string>
+    <string name="fragment_detailed_btn_positivetext">Удалить</string>
+    <string name="fragment_detailed_btn_negativetext">Отмена</string>
+
+
+    <string name="format_fulldate">%02d.%02d.%d</string>
+    <string name="format_shortdate">%s %s</string>
+    <string name="format_time">%02d:%02d</string>
+    <string name="format_timeandtext">%02d:%02d %s</string>
+    <string name="format_shortdatedayname">%s %s, %s</string>
+
+
+    <string name="notificaton_check">Просмотреть</string>
+    <string name="notification_cancel">Отмена</string>
+    <string name="notification_alarm_btn_detailed_text">Просмотреть</string>
+    <string name="notification_alarm_btn_cancel_text">Отмена</string>
+    <string name="notification_alarm_tv_hintclickfordetailed_hint">Нажмите для детальной информации</string>
+    <string name="dayname_sunday">Воскресенье</string>
+    <string name="dayname_monday">Понедельник</string>
+    <string name="dayname_tuesday">Вторник</string>
+    <string name="dayname_wednesday">Cреда</string>
+    <string name="dayname_thursday">Четверг</string>
+    <string name="dayname_friday">Пятница</string>
+    <string name="dayname_saturday">Суббота</string>
+    <string name="error_stringnotavailable">Unavailable</string>
+    <string name="monthname_january">Января</string>
+    <string name="monthname_february">Февраля</string>
+    <string name="monthname_march">Марта</string>
+    <string name="monthname_april">Апреля</string>
+    <string name="monthname_may">Мая</string>
+    <string name="monthname_june">Июня</string>
+    <string name="monthname_july">Июля</string>
+    <string name="monthname_august">Августа</string>
+    <string name="monthname_september">Сентября</string>
+    <string name="monthname_october">Октября</string>
+    <string name="monthname_november">Ноября</string>
+    <string name="monthname_december">Декабря</string>
+    <string name="menu_detailedfragment_listitempopup_delete_title">Удалить</string>
+    <string name="menu_detailedfragment_listitempopup_edit_title">Редактировать</string>
+
 </resources>

@@ -1,4 +1,11 @@
+
 package com.reminderapp.ui.navigation
 
-class BaseRouter {
+import androidx.navigation.NavController
+import com.reminderapp.mvp.contract.BaseContract
+
+abstract class BaseRouter(protected val navController: NavController): BaseContract.Router {
+    override fun back() {
+        navController.popBackStack()
+    }
 }

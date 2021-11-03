@@ -6,9 +6,9 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="7"
+        android:layout_weight="9"
         android:orientation="vertical">
 
         <TextView
@@ -20,24 +20,25 @@
             android:id="@+id/notification_alarm_tv_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minLines="2"
+            android:ellipsize="end"
             android:maxLines="2"
-            android:ellipsize="end" />
+            android:minLines="2" />
 
         <TextView
+            android:id="@+id/notification_alarm_tv_hintclickfordetailed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/notification_alarm_tv_hintclickfordetailed_hint"
             android:textSize="8sp"
-            android:hint="@string/notification_tv_hint_clickfordetailed"
             tools:ignore="SmallSp" />
     </LinearLayout>
 
     <Button
         android:id="@+id/notification_alarm_btn_cancel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:text="@string/notification_alarm_btn_cancel_text"
         android:textSize="12sp" />
 </LinearLayout>

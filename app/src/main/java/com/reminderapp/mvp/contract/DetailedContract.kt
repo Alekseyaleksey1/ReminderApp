@@ -1,23 +1,17 @@
 package com.reminderapp.mvp.contract
 
 import com.reminderapp.mvp.data.entity.Note
-import java.util.*
 
-interface DetailedInfoContract {//todo именование Инфо?
+interface DetailedContract {
+
     interface View : BaseContract.View {
-        val dateToShow: Date //todo переделать, убрать из контракта?
-        fun showNotesForThisDay(allNotesForThisDay: List<Note>)
-        fun showConfirmationDialog(noteToRemove: Note)
-        fun removeNote(noteToRemove: Note)
+        fun removeNoteFromUi(noteToRemove: Note)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
-        fun onShowConfirmationDialog(noteToRemove: Note)
-        fun onRemoveNote(noteToRemove: Note)
-        fun onGetDayNotes(/*date: Date*/)
+        fun onDeleteNoteFromDatabase(noteToDelete: Note)
+        fun onRemoveNoteAlarm(noteToDelete: Note)
     }
 
-    interface Router : BaseContract.Router {
-        fun showConfirmationDialog(noteToRemove: Note)
-    }
+    interface Router : BaseContract.Router
 }

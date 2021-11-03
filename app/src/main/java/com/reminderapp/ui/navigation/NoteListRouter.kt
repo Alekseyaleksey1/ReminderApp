@@ -1,4 +1,6 @@
 package com.reminderapp.ui.navigation
 
-class NoteListRouter {
-}
+import androidx.navigation.NavController
+import com.reminderapp.mvp.contract.NoteListContract
+
+class NoteListRouter(navController: NavController) : BaseRouter(navController), NoteListContract.Router

@@ -1,4 +1,10 @@
 package com.reminderapp.mvp.contract
 
-class ScheduleContract {
+interface ScheduleContract {
+
+    interface View : BaseContract.View
+
+    interface Presenter: BaseContract.Presenter<View>
+
+    interface Router: BaseContract.Router
 }

@@ -9,15 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.reminderapp.R
 
-class ProgressDialogFragment : DialogFragment() {
+class ProgressFragment : DialogFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_progress_dialog, container, false)
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
-            super.onCreateDialog(savedInstanceState).apply {
-                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            }
+        super.onCreateDialog(savedInstanceState).apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
 }
